@@ -1,0 +1,13 @@
+.fpbody {
+    margin: 0;
+    background-color: black;
+}
+
+.fpdiv1 {
+    min-height: 115vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: url('https://blz-contentstack-images.akamaized.net/v3/assets/blt77f4425de611b362/bltb5cac524dcb261ae/611583c8c8163c2197c3c1f6/di_masthead_desktop-2600.jpg') no-repeat center center;
+    box-shadow: inset 0 0 10px 10px black;
+}

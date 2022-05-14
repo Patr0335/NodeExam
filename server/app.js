@@ -36,10 +36,10 @@ app.use(
 import userRouter from "./router/userRouter.js";
 app.use(userRouter);
 
-import classesRouter from "./router/classesRouter";
+import classesRouter from "./router/classesRouter.js";
 app.use(classesRouter);
 
-import itemsRouter from "./router/itemsRouter";
+import itemsRouter from "./router/itemsRouter.js";
 app.use(itemsRouter);
 
 //################# helmet middleware
