@@ -5,6 +5,7 @@
   import LoginPage from "./components/pages/LoginPage.svelte";
   import ArmoryPage from "./components/pages/ArmoryPage.svelte";
   import LogoutPage from "./components/pages/LogoutPage.svelte";
+  import { SvelteToast } from '@zerodevx/svelte-toast';
 
   async function logout() {
     const res = await fetch(`/api/logout`);
@@ -14,6 +15,24 @@
     setTimeout(() => {
       navigate("/", { replace: true });
     }, 1500);
+  }
+
+  const options = {
+    theme: {
+      "--toastBackground": "#48BB78",
+      "--toastBarBackground": "#2F855A",
+      reversed: true,
+      intro: { y: 192 },
+    },
+  };
+
+  let isLogin = false;
+  function loginbtn() {
+    isLogin = true;
+  }
+
+  function close() {
+    isLogin = false;
   }
 </script>
 
@@ -34,7 +53,10 @@
 		</li>
 
         <li class="li-style">
-          <Link to="/Login"><button class="button" >Login</button></Link>
+          <button class="button" on:click={loginbtn}>Login</button>
+          {#if isLogin}
+          <LoginPage on:closeIt={close}></LoginPage>
+          {/if}
         </li>
 
         <li class="li-style">
@@ -51,10 +73,11 @@
     </nav>
 
     <Route path="/" component={FrontPage} />
-    <Route path="/login" component={LoginPage} />
-    <Route path="/signup" component={SignupPage} />
-    <Route path="/armory" component={ArmoryPage} />
-    <Route path="/logout" component={LogoutPage} />
+    <!-- <Route path="/Login" component={LoginPage} /> -->
+	<SvelteToast {options} />
+    <Route path="/Signup" component={SignupPage} />
+    <Route path="/Armory" component={ArmoryPage} />
+    <!-- <Route path="/Logout" component={LogoutPage} /> -->
   </Router>
 </main>
 
@@ -70,6 +93,8 @@
     align-self: end;
     background-color: black;
 	
+	
+	
   }
 
   .ul-style {
@@ -78,6 +103,7 @@
     margin: 0;
     background-color: black;
 	/* height: 100px; */
+	
   }
 
   .li-style {
@@ -85,6 +111,8 @@
     color: white;
     font-size: 48px;
     font-weight: 600;
+	cursor: default;
+	
 	
 	/* height: 100px; */
   }
@@ -106,6 +134,7 @@
   .button:hover {
 	background: #000;
 	color: rgb(158, 36, 36);
+	cursor: pointer;
   }
 
   .imglogo {
