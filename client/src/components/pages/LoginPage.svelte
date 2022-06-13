@@ -1,13 +1,16 @@
 <script>
   import { navigate } from "svelte-navigator";
   import { toast } from "@zerodevx/svelte-toast";
-  import { createEventDispatcher } from "svelte";
-  import {fly, fade} from "svelte/transition";
+  import { user } from "../store/writeableStore";
+
+
+
 
   //################################### LOGIN
 
   let newUser = {};
   let errorMessage = "";
+  let responseMessage = "";
   async function signupUser() {
     if (
       newUser?.username &&
@@ -28,7 +31,7 @@
         errorMessage = "";
         setTimeout(() => {
           toast.push("Signup was a success. You can now login");
-          navigate("/", { replace: true });
+          navigate("/profile", { replace: true });
         }, 1500);
       }
     } else {
@@ -51,9 +54,13 @@
       method: "POST",
       body: JSON.stringify(newUser),
     });
-    responseMessage = await res.text();
+    responseMessage = await res.json(); // skal have json til at virke  // text
     if (res.status === 200) {
-      navigate("/frontPage", { replace: true });
+      // $user = JSON.parse(res.json);
+      console.log(responseMessage)
+      $user = {isLoggedIn: true}
+
+      navigate("/profile", { replace: true });
     } else {
       toast.push("User doesnt exist", {
         theme: {
@@ -64,47 +71,34 @@
     }
   }
 
-
-  const dispatch = createEventDispatcher();
-
-  function close() {
-    dispatch('closeIt');
-  }
 </script>
 
-<div class="background" transition:fade on:click={close}/>
-<div class="login-box" transition:fly={{y: -500}}>
-    <form>
-      <!-- svelte-ignore a11y-label-has-associated-control -->
-      <label>Email</label>
-      <input
-        type="text"
-        placeholder="Email"
-        bind:value={newUser.username}
-      />
-      <!-- svelte-ignore a11y-label-has-associated-control -->
-      <label>Password</label>
-      <input
-        type="password"
-        placeholder="Password"
-        bind:value={newUser.password}
-      />
-      <small class="signup-error-message">
-        {errorMessage}
-      </small>
-      <button type="button" class="btn btn-black" on:click={() => login()}
-        >Login</button
-      >
-      <button
-        type="button"
-        on:click={() => signupUser()}>Register</button
-      >
-      
-    </form>
+
+<div>
+  <form>
+    <!-- svelte-ignore a11y-label-has-associated-control -->
+    <label>Email</label>
+    <input type="text" placeholder="Email" bind:value={newUser.username} />
+    <!-- svelte-ignore a11y-label-has-associated-control -->
+    <label>Password</label>
+    <input
+      type="password"
+      placeholder="Password"
+      bind:value={newUser.password}
+    />
+    <small class="signup-error-message">
+      {errorMessage}
+    </small>
+    <button type="button" class="btn btn-black" on:click={() => login()}
+      >Login</button
+    >
+    <button type="button" on:click={() => signupUser()}>Register</button>
+  </form>
+
 </div>
 
 <style>
-  .background {
+  /* .background {
     position: fixed;
     top: 0;
     left: 0;
@@ -124,7 +118,7 @@
     padding: 15px;
     background-color: rgb(7, 7, 7);
     border: solid 5px white;
-  }
+  } */
 
   .btn-black {
     background-color: #000 !important;

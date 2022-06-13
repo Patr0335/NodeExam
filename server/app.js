@@ -42,6 +42,9 @@ app.use(classesRouter);
 import itemsRouter from "./router/itemsRouter.js";
 app.use(itemsRouter);
 
+import charactersRouter from "./router/charactersRouter.js";
+app.use(charactersRouter);
+
 //################# helmet middleware
 import helmet from "helmet"; // ECMAScript modules
 app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares

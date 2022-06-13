@@ -17,12 +17,12 @@
         </p>
 
         <div class="" style="text-align: center; margin-top: 12px;">
-          <button
+          <!-- <button
             type="button"
             style="padding: 12px 24px;width: 50%;background-color: transparent;color: white;border: 1px solid white;/* text-align: center; */"
             href="/Login"
             >Login
-          </button>
+          </button> -->
 
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

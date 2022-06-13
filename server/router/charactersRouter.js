@@ -3,10 +3,12 @@ import db from "../database/createConnection.js";
 
 const router = Router();
 
-router.get("/api/classes", async (req, res) => {
-    const classes = await db.all("SELECT * FROM classes;");
+router.get("/api/characters/:userid", async (req, res) => {
+    let userid = req.params.userid;
+    
+    const characters = await db.all('SELECT * FROM characters WHERE user == '+ userid);
 
-    res.send( classes );
+    res.send( characters );
 });
 
 

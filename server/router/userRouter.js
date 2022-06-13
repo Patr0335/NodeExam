@@ -12,6 +12,7 @@ router.post("/api/login", async (req, res) => {
   const userFound = await db.get("SELECT * FROM users WHERE username = ?", [
     username,
   ]);
+  console.log(userFound);
 
   if (!userFound) {
     res.status(400);
@@ -19,13 +20,19 @@ router.post("/api/login", async (req, res) => {
   }
 
   const samePass = await bcrypt.compare(password, userFound.password);
-
+  console.log(samePass)
+  console.log(password,userFound.password)
   // if (userFound.password === password) {
-  if (samePass && !req.session.loggedIn) {
+    // && !req.session.loggedIn
+  if (req.session.loggedIn) { // logged in return user
+    req.session.loggedIn = true;
+    req.session.username = username;
+    return res.json({username: userFound.username, id: userFound.id});
+  } else if (samePass && !req.session.loggedIn) { // if not logged in & wrote correct user it logs in
     req.session.loggedIn = true;
     req.session.username = username;
     return res.send("Login: " + username);
-  } else {
+  } else { // forkert kode
     res.status(401);
     return res.send("you messed up");
   }

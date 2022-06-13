@@ -1,21 +1,26 @@
 <script>
   import { Router, Link, Route } from "svelte-navigator";
-  import FrontPage from "./components/pages/frontPage.svelte";
-  import SignupPage from "./components/pages/SignupPage.svelte";
+  import { navigate } from "svelte-navigator";
+  import PrivateRoute from "./components/pages/PrivateRoute.svelte";
+  import FrontPage from "./components/pages/FrontPage.svelte";
   import LoginPage from "./components/pages/LoginPage.svelte";
   import ArmoryPage from "./components/pages/ArmoryPage.svelte";
-  import LogoutPage from "./components/pages/LogoutPage.svelte";
-  import { SvelteToast } from '@zerodevx/svelte-toast';
+  import ProfilePage from "./components/pages/ProfilePage.svelte";
+  import { SvelteToast } from "@zerodevx/svelte-toast";
+  import { user } from "./components/store/writeableStore";
+
+let responseMessage = "";
+
 
   async function logout() {
     const res = await fetch(`/api/logout`);
 
-    responseMessage = await res.text();
-
+    $user = null;
     setTimeout(() => {
-      navigate("/", { replace: true });
-    }, 1500);
+      navigate("/", { replace: true });  // hvorfor fanden hopper den til profile og så bagefter home
+    }, 1);
   }
+  
 
   const options = {
     theme: {
@@ -26,14 +31,7 @@
     },
   };
 
-  let isLogin = false;
-  function loginbtn() {
-    isLogin = true;
-  }
-
-  function close() {
-    isLogin = false;
-  }
+ 
 </script>
 
 <main>
@@ -45,39 +43,41 @@
         </li>
 
         <li class="li-style">
-			<Link to="/"><button class="button">Home</button></Link>
-        </li>
-
-		<li class="li-style">
-			<Link to="/Armory"><button class="button" to="/Armory">DI-Armory</button></Link>
-		</li>
-
-        <li class="li-style">
-          <button class="button" on:click={loginbtn}>Login</button>
-          {#if isLogin}
-          <LoginPage on:closeIt={close}></LoginPage>
-          {/if}
+          <Link to="/"
+            ><button class="button" to="/">Home</button></Link
+          >
         </li>
 
         <li class="li-style">
-			<Link to="/Signup"><button class="button" to="/Signup">Signup</button></Link>
+          <Link to="/Armory"
+            ><button class="button" to="/Armory">DI-Armory</button></Link
+          >
         </li>
 
+        <li class="li-style">
+          <Link to="/profile"
+            ><button class="button" to="/profile">Profile</button></Link
+          >
+        </li>
 
-		<!-- SKAL KUN VISES NÅR DU ER LOGGET IND -->
+        <li class="li-style">
+          <button class="button" on:click={logout}>Logout</button>
+        </li>
 
-        <!-- <li class="li-style" on:click={logout}>
-          <button class="logoutbutton" to="/">Logout</button>
-        </li> -->
       </ul>
     </nav>
+    <Route path="login">
+      <LoginPage/>
+    </Route>
 
     <Route path="/" component={FrontPage} />
-    <!-- <Route path="/Login" component={LoginPage} /> -->
-	<SvelteToast {options} />
-    <Route path="/Signup" component={SignupPage} />
+    <SvelteToast {options} />
     <Route path="/Armory" component={ArmoryPage} />
-    <!-- <Route path="/Logout" component={LogoutPage} /> -->
+
+    <PrivateRoute path="/profile">
+      <ProfilePage/>
+      <!-- <h3>Welcome {$user.username}</h3> -->
+  </PrivateRoute>
   </Router>
 </main>
 
@@ -92,9 +92,6 @@
   .Nav-style {
     align-self: end;
     background-color: black;
-	
-	
-	
   }
 
   .ul-style {
@@ -102,8 +99,7 @@
     list-style: none;
     margin: 0;
     background-color: black;
-	/* height: 100px; */
-	
+    /* height: 100px; */
   }
 
   .li-style {
@@ -111,10 +107,9 @@
     color: white;
     font-size: 48px;
     font-weight: 600;
-	cursor: default;
-	
-	
-	/* height: 100px; */
+    cursor: default;
+
+    /* height: 100px; */
   }
 
   .button {
@@ -128,13 +123,13 @@
     font-size: 0.95rem;
     color: #fff;
     letter-spacing: 0.0625em;
-	transition-duration: 0.4s;
+    transition-duration: 0.4s;
   }
 
   .button:hover {
-	background: #000;
-	color: rgb(158, 36, 36);
-	cursor: pointer;
+    background: #000;
+    color: rgb(158, 36, 36);
+    cursor: pointer;
   }
 
   .imglogo {
@@ -150,6 +145,4 @@
       max-width: none;
     }
   }
-
-  
 </style>

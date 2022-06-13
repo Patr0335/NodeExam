@@ -6,7 +6,7 @@ const router = Router();
 router.get("/api/items", async (req, res) => {
     const items = await db.all("SELECT * FROM items;");
 
-    res.send({ data: items });
+    res.send( items );
 });
 
 
