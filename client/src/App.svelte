@@ -14,11 +14,8 @@ let responseMessage = "";
 
   async function logout() {
     const res = await fetch(`/api/logout`);
-
-    $user = null;
-    setTimeout(() => {
-      navigate("/", { replace: true });  // hvorfor fanden hopper den til profile og så bagefter home
-    }, 1);
+      navigate("/", { replace: true });  
+      $user = null; 
   }
   
 
@@ -49,8 +46,8 @@ let responseMessage = "";
         </li>
 
         <li class="li-style">
-          <Link to="/Armory"
-            ><button class="button" to="/Armory">DI-Armory</button></Link
+          <Link to="/armory"
+            ><button class="button" to="/armory">DI-Armory</button></Link
           >
         </li>
 
@@ -72,7 +69,7 @@ let responseMessage = "";
 
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
-    <Route path="/Armory" component={ArmoryPage} />
+    <Route path="/armory" component={ArmoryPage} />
 
     <PrivateRoute path="/profile">
       <ProfilePage/>

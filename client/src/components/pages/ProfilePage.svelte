@@ -1,39 +1,62 @@
 <script>
   import { onMount } from "svelte";
-  
+  import { user } from "../store/writeableStore";
 
-
-
-  let classes = [];
+  let classes = []; // global variable
   let characters = [];
   let items = [];
+  let availableItems = [];
+  let selecteds = [];
 
+  console.log("geh");
   onMount(async () => {
+    console.log("heh");
+    classes = await getClasses();
+    characters = await getChars();
+    items = await getItems();
+    availableItems = [...items];
+    availableItems.forEach((x, i) => {
+      selecteds.push(i + 1);
+    });
+  });
+
+  async function getClasses() {
     const res = await fetch("/api/classes");
-    classes = await res.json();
-  });
-
-  onMount(async () => {
-    const res = await fetch("/api/characters/1"); // mangler if logged in 
-    characters = await res.json();
-  });
-
-  onMount(async () => {
-    const res = await fetch("/api/items");
-    items = await res.json();
-  });
-
-  function getItems() {
-    const result = db.execute("SELECT * FROM items");
-    return result;
+    return res.json();
   }
 
-  function selectedItem(itemId, charId) {
-    const elem = document.getElementById("selectedValue");
+  async function getChars() {
+    const res = await fetch(`/api/characters/${$user.id}`);
+    return res.json();
+  }
 
-    db.execute(
-      `UPDATE Characters SET ${itemId} = ${elem.value} WHERE id == ${charId}`
-    );
+  async function getItems() {
+    const res = await fetch("/api/items");
+    return res.json();
+  }
+
+  // function getItems() {
+  //   const result = db.execute("SELECT * FROM items");
+  //   return result;
+  // }
+
+  function selectedItem(itemId, index) {
+    console.log(itemId);
+    console.log(index);
+    console.log(availableItems);
+    console.log(items);
+    // items.findIndex(x => x.id === itemId)
+    const some = availableItems.find((x) => {
+      console.log("----------------", x.id, itemId);
+      return +x.id === +itemId;
+    });
+    console.log(some);
+    items[index] = some;
+    console.log(items);
+
+    // db.execute(
+    //   `UPDATE Characters SET ${itemId} = ${elem.value} WHERE id == ${charId}`
+    // );
   }
 </script>
 
@@ -62,104 +85,25 @@
                   </div>
                 {/if}
               {/each}
-              {#each items as item}
-                {#if character.helmSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <!-- <label for="items">Choose more items</label> -->
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
+              {#each items as item, i}
+                <div class="card">
+                  <div class="c-box c-left">
+                    <!-- <label for="items">Choose more items</label> -->
+                    <select
+                      name="items"
+                      id="selectedValue"
+                      bind:value={selecteds[i]}
+                      on:change={(y) => selectedItem(y.target.value, i)}
+                    >
+                      {#each availableItems as availableItem (availableItem.id)}
+                        <option value={availableItem.id}
+                          >{availableItem.name}
+                        </option>
+                      {/each}
+                    </select>
+                    <img src={item.imagePath} alt={item.name} />
                   </div>
-                {/if}
-                {#if character.shoulderSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.chestSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.legsSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.weaponSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.offhandSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <select
-                        name="items"
-                        id="selectedValue"
-                        onchange="selectedItem({item.id}, {character.id})"
-                      >
-                        {#each items as item}
-                          <option value={item}>{item.name}</option>
-                        {/each}
-                      </select>
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
+                </div>
               {/each}
             {/each}
           </div>

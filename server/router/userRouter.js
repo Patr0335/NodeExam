@@ -31,7 +31,7 @@ router.post("/api/login", async (req, res) => {
   } else if (samePass && !req.session.loggedIn) { // if not logged in & wrote correct user it logs in
     req.session.loggedIn = true;
     req.session.username = username;
-    return res.send("Login: " + username);
+    return res.json({username: userFound.username, id: userFound.id});
   } else { // forkert kode
     res.status(401);
     return res.send("you messed up");

@@ -33,17 +33,13 @@ await db.exec(`CREATE TABLE IF NOT EXISTS items (
     imagePath VARCHAR(120)
 );`);
 
+
 await db.exec(`CREATE TABLE IF NOT EXISTS characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user INTEGER,
     name VARCHAR(80),
     class INTEGER,
-    helmSlot INTEGER,
-    shoulderSlot INTEGER,
-    chestSlot INTEGER,
-    legsSlot INTEGER,
-    offhandSlot INTEGER,
-    weaponSlot INTEGER
+    items VARCHAR(120)
     
 );`);
 
@@ -64,8 +60,8 @@ if(isInDeleteMode) {
     await db.run(`INSERT INTO items (name, grade, imagePath) VALUES ('Weapon of KEA', 'Rare', './images/BarbarianWeapon.jpg')`);
 
 
-    await db.run(`INSERT INTO characters (user, name, class, helmSlot, shoulderSlot, chestSlot, legsSlot, offhandSlot, weaponSlot) VALUES (1, 'Kekpaw', 1, 1, 2, 3, 4, 5, 6)`);
-    await db.run(`INSERT INTO characters (user, name, class, helmSlot, shoulderSlot, chestSlot, legsSlot, offhandSlot, weaponSlot) VALUES (2, 'Babz', 3, 1, 2, 3, 4, 5, 6)`);
+    await db.run(`INSERT INTO characters (user, name, class, items) VALUES (1, 'Kekpaw', 1, '[1, 2, 3, 4, 5, 6]')`);
+    await db.run(`INSERT INTO characters (user, name, class, items) VALUES (2, 'Babz', 3, '[1, 2, 3, 4, 5, 6]')`);
 
     await db.run(`INSERT INTO users (username, password) VALUES ('patrickherfolge@gmail.com', '${admin}')`);
     

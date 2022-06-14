@@ -58,7 +58,7 @@
     if (res.status === 200) {
       // $user = JSON.parse(res.json);
       console.log(responseMessage)
-      $user = {isLoggedIn: true}
+      $user = {...responseMessage}
 
       navigate("/profile", { replace: true });
     } else {

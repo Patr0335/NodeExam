@@ -13,6 +13,6 @@
     }
   </script>
   
-  {#if $user?.isLoggedIn}
+  {#if $user?.id}
     <slot />
   {/if}
