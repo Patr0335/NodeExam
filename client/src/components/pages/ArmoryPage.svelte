@@ -6,20 +6,25 @@
   let items = [];
 
   onMount(async () => {
+    classes = await getClasses();
+    characters = await getChars();
+    items = await getItems();
+  });
+
+  async function getClasses() {
     const res = await fetch("/api/classes");
-    classes = await res.json();
-  });
+    return res.json();
+  }
 
-  onMount(async () => {
-    const res = await fetch("/api/characters");
-    characters = await res.json();
-  });
-
-  onMount(async () => {
+  async function getItems() {
     const res = await fetch("/api/items");
-    items = await res.json();
-  });
+    return res.json();
+  }
 
+  async function getChars() {
+    const res = await fetch("/api/characters");
+    return res.json();
+  }
 </script>
 
 <body class="fpbody">
@@ -30,6 +35,15 @@
       >
         Welcome to the Diablo Immortal Armory!
       </p>
+      <p
+        style="color: #fff; font-size: 32px; max-width: 1000px; text-align: center; margin: 10;"
+      >
+        Search for a character name
+      </p>
+      <div class="search-wrapper">
+        <!-- <label for="search">Search Characters</label> -->
+        <input type="search" id="search" placeholder="Character Name" />
+      </div>
       <div
         class="fpdiv2"
         style="display:flex; flex-direction: column; justify-content: center;align-items: center;flex: 1;"
@@ -48,56 +62,20 @@
                 {/if}
               {/each}
               {#each items as item}
-                {#if character.helmSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
+                <div class="card">
+                  <div class="c-box c-left">
+                    <!-- <label for="items">Choose more items</label> -->
+                    <img src={item.imagePath} alt={item.name} />
                   </div>
-                {/if}
-                {#if character.shoulderSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.chestSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.legsSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.weaponSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-left">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
-                {#if character.offhandSlot == item.id}
-                  <div class="card">
-                    <div class="c-box c-right">
-                      <img src={item.imagePath} alt={item.name} />
-                    </div>
-                  </div>
-                {/if}
+                </div>
               {/each}
             {/each}
           </div>
-          <button
+          <!-- <button
             style="padding: 12px 24px;width: 50%;background-color: transparent;color: white;border: 1px solid white;/* text-align: center; */"
             href="/Login"
             >Save Changes
-          </button>
+          </button> -->
 
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

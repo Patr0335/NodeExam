@@ -1,3 +1,8 @@
+<!-- <script src="/socket.io/socket.io.js">
+var socket = io();
+</script> -->
+
+
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">
@@ -15,6 +20,8 @@
         >
           Welcome to the Immortal Armory
         </p>
+
+        <blz-button class="blz-button" label="PLAY">PLAY</blz-button>
 
         <div class="" style="text-align: center; margin-top: 12px;">
           <!-- <button

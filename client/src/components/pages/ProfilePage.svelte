@@ -2,8 +2,8 @@
   import { onMount } from "svelte";
   import { user } from "../store/writeableStore";
 
-  let classes = []; // global variable
-  let characters = [];
+  // global variable
+  let character = {};
   let items = [];
   let availableItems = [];
   let selecteds = [];
@@ -11,8 +11,9 @@
   console.log("geh");
   onMount(async () => {
     console.log("heh");
-    classes = await getClasses();
-    characters = await getChars();
+
+    character = await getChar();
+    character.items.sort((a, b) => a.slotId - b.slotId);
     items = await getItems();
     availableItems = [...items];
     availableItems.forEach((x, i) => {
@@ -20,12 +21,7 @@
     });
   });
 
-  async function getClasses() {
-    const res = await fetch("/api/classes");
-    return res.json();
-  }
-
-  async function getChars() {
+  async function getChar() {
     const res = await fetch(`/api/characters/${$user.id}`);
     return res.json();
   }
@@ -35,28 +31,18 @@
     return res.json();
   }
 
-  // function getItems() {
-  //   const result = db.execute("SELECT * FROM items");
-  //   return result;
-  // }
-
-  function selectedItem(itemId, index) {
-    console.log(itemId);
-    console.log(index);
-    console.log(availableItems);
-    console.log(items);
-    // items.findIndex(x => x.id === itemId)
-    const some = availableItems.find((x) => {
-      console.log("----------------", x.id, itemId);
-      return +x.id === +itemId;
-    });
-    console.log(some);
-    items[index] = some;
-    console.log(items);
-
-    // db.execute(
-    //   `UPDATE Characters SET ${itemId} = ${elem.value} WHERE id == ${charId}`
-    // );
+  function selectedItem(itemId, slotId) {
+    fetch(`/api/characters/${$user.id}`, {
+      headers: {
+          "content-type": "application/json",
+        },
+      method: "PUT",
+      body: JSON.stringify({
+        // characterId: character.id,
+        itemId,
+        slotId,
+      }),
+    }).then((x) => console.log(x));
   }
 </script>
 
@@ -74,26 +60,25 @@
       >
         <div class="" style="text-align: center; margin-top: 12px;">
           <div class="pos">
-            {#each characters as character}
-              {#each classes as c}
-                {#if character.class == c.id}
+                {#if character && character.class}
                   <div class="card">
                     <div class="class-img">
-                      <img src={c.imagePath} alt={c.class} />
+                      <img src={character.class.imagePath} alt={character.class} />
                       <h3>{character.name}</h3>
                     </div>
                   </div>
                 {/if}
-              {/each}
-              {#each items as item, i}
+            {#if character && character.items && character.items.length > 0}
+              {#each character?.items as item}
                 <div class="card">
                   <div class="c-box c-left">
                     <!-- <label for="items">Choose more items</label> -->
                     <select
                       name="items"
                       id="selectedValue"
-                      bind:value={selecteds[i]}
-                      on:change={(y) => selectedItem(y.target.value, i)}
+                      bind:value={item.id}
+                      on:change={(y) =>
+                        selectedItem(y.target.value, item.slotId)}
                     >
                       {#each availableItems as availableItem (availableItem.id)}
                         <option value={availableItem.id}
@@ -105,7 +90,7 @@
                   </div>
                 </div>
               {/each}
-            {/each}
+            {/if}
           </div>
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

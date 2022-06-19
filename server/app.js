@@ -15,10 +15,19 @@ app.use(
     secret: "keyboard cat should not be pushed",
     resave: false, // variable. if its true every route will try to resave the session. false = if you are not updating dont try to resave it.
     saveUninitialized: true, // means that even if you are not starting a session when a client contacts / makes a request. you want to create a session.
-    // false means if we dont want to create that many sessions????
+    // false means if we dont want to create that many sessions?
     cookie: { secure: false }, // you have to make it false. true is https. we are doing http
   })
 );
+
+//################### Socket.io
+const io = new Server(PORT);
+
+io.on('connection', (socket) => {
+  console.log('a user connected')
+})
+
+
 
 //################# rate-limit middleware
 // import rateLimit from "express-rate-limit";
@@ -47,6 +56,7 @@ app.use(charactersRouter);
 
 //################# helmet middleware
 import helmet from "helmet"; // ECMAScript modules
+import { Server } from "http";
 app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
 
 const PORT = process.env.PORT || 9000;

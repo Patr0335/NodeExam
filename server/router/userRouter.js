@@ -32,7 +32,7 @@ router.post("/api/login", async (req, res) => {
     req.session.loggedIn = true;
     req.session.username = username;
     return res.json({username: userFound.username, id: userFound.id});
-  } else { // forkert kode
+  } else { 
     res.status(401);
     return res.send("you messed up");
   }

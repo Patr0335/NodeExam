@@ -20,5 +20,19 @@
     flex: 1;
 }
 
+blz-button {
+    background-image: url("https://blz-contentstack-images.akamaized.net/v3/assets/blt77f4425de611b362/blt2463a6779ba3d89f/61083d3eb1bb2f5c1ac0b995/secondary-button-center.jpg?auto=webp");
+    background-repeat: repeat-x;
+    background-position: center center;
+    background-size: contain;
+    position: relative;
+    z-index: 1;
+    text-transform: uppercase;
+    padding: 0 var(--size-500);
+    white-space: pre-wrap;
+    text-align: center;
+    height: 72px;
+  }
+
 
 
