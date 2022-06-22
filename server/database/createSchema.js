@@ -1,9 +1,11 @@
 import db from "./createConnection.js";
+import dotenv from "dotenv";
+dotenv.config();
 import bcrypt from "bcrypt";
 
 const isInDeleteMode = true;
 const saltRounds = 12;
-const admin = await bcrypt.hash("1234", saltRounds);
+const admin = await bcrypt.hash(process.env.ADMIN_PASS, saltRounds);
 
 if (isInDeleteMode) {
   await db.exec(`DROP TABLE IF EXISTS users;`);

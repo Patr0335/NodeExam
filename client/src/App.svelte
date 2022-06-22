@@ -7,17 +7,10 @@
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-  import { user } from "./components/store/writeableStore";
-
-let responseMessage = "";
-
-
-  // async function logout() {
-  //   const res = await fetch(`/api/logout`);
-  //     navigate("/", { replace: true });  
-  //     $user = null; 
-  // }
   
+
+
+
 
   const options = {
     theme: {
@@ -56,10 +49,6 @@ let responseMessage = "";
             ><button class="button" to="/profile">Profile</button></Link
           >
         </li>
-
-        <!-- <li class="li-style">
-          <button class="button" on:click={logout}>Logout</button>
-        </li> -->
 
       </ul>
     </nav>

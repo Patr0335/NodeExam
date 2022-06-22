@@ -5,11 +5,13 @@
 <script>
   import { onMount } from "svelte";
   import { useParams } from "svelte-navigator";
+  import { io } from "socket.io-client";
 
   let character = {};
   const params = useParams();
 
   onMount(async () => {
+    socket.connect()
     console.log($params)
     character = await getChar($params.characterId);
   });
@@ -18,6 +20,12 @@
     const res = await fetch(`/api/characters/${characterId}`);
     return res.json();
   }
+
+  const socket = io('http://localhost:9000');
+
+  socket.on('connect', () => {
+    console.log(`You connected with id: ${socket.id}`); 
+  });
 </script>
 
 <body class="fpbody">

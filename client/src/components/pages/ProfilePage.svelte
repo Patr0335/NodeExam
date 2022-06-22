@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { navigate } from "svelte-navigator";
   import { user } from "../store/writeableStore";
+  import { io } from "socket.io-client";
 
   // global variable
   let character = {};
@@ -9,9 +10,7 @@
   let availableItems = [];
   let selecteds = [];
 
-  console.log("geh");
   onMount(async () => {
-    console.log("heh");
     character = await getChar();
     character.items.sort((a, b) => a.slotId - b.slotId);
     items = await getItems();
@@ -34,22 +33,23 @@
   function selectedItem(itemId, slotId) {
     fetch(`/api/characters/${$user.id}`, {
       headers: {
-          "content-type": "application/json",
-        },
+        "content-type": "application/json",
+      },
       method: "PUT",
       body: JSON.stringify({
-        // characterId: character.id,
         itemId,
         slotId,
       }),
     }).then((x) => console.log(x));
+    io.on("connection", (socket) => {
+      socket.broadcast.emit("hi");
+    });
   }
-
 
   async function logout() {
     const res = await fetch(`/api/logout`);
-      navigate("/", { replace: true });  
-      $user = null; 
+    navigate("/", { replace: true });
+    $user = null;
   }
 </script>
 
@@ -68,14 +68,17 @@
       >
         <div class="" style="text-align: center; margin-top: 12px;">
           <div class="pos">
-                {#if character && character.class}
-                  <div class="card1">
-                    <div class="class-img">
-                      <img src={`./images/${character.class.imagePath}`} alt={character.class} />
-                      <h3>{character.name}</h3>
-                    </div>
-                  </div>
-                {/if}
+            {#if character && character.class}
+              <div class="card1">
+                <div class="class-img">
+                  <img
+                    src={`./images/${character.class.imagePath}`}
+                    alt={character.class}
+                  />
+                  <h3>{character.name}</h3>
+                </div>
+              </div>
+            {/if}
             {#if character && character.items && character.items.length > 0}
               {#each character?.items as item}
                 <div class="card1">

@@ -3,17 +3,10 @@
   import { navigate } from "svelte-navigator";
 
   let characters = [];
-  let items = [];
 
   onMount(async () => {
     characters = await getChars();
-    // items = await getItems();
   });
-
-  // async function getItems() {
-  //   const res = await fetch("/api/items");
-  //   return res.json();
-  // }
 
   async function getChars() {
     const res = await fetch("/api/characters");
@@ -23,6 +16,7 @@
   async function navigateDetail(characterId) {
     navigate(`/armory/${characterId}`, { replace: true });
   }
+
 </script>
 
 <body class="fpbody">
@@ -89,7 +83,7 @@
   .pos {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    
+
     gap: 16px;
   }
 

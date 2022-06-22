@@ -76,21 +76,25 @@ router.get("/api/logout", (req, res) => {
   res.send("You're not logged in");
 });
 
+// Nodemailer
+import dotenv from "dotenv";
+dotenv.config();
+
 function welcomeMail(username) {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "DI-Armory@gmail.com",
-      pass: "solnedgang123",
+      user: process.env.MAIL_USER,
+      pass: process.env.MAIL_PASS,
     },
   });
 
   // Text = skal indeholde password
   let mailDetails = {
-    from: "patricksmemeshop@gmail.com",
+    from: "patricklindahl91@gmail.com",
     to: username,
-    subject: "Patricks Memeshop Newsletter!",
-    html: "<p> You have sucessfully made an account on patricks Memeshop! </p>",
+    subject: "Success!!",
+    html: "<p> You have sucessfully made an account on DI-Aromry! </p>",
   };
 
   mailTransporter.sendMail(mailDetails, function (err, data) {

@@ -20,15 +20,6 @@ app.use(
   })
 );
 
-//################### Socket.io
-const io = new Server(app);
-
-io.on('connection', (socket) => {
-  console.log('a user connected')
-})
-
-
-
 //################# rate-limit middleware
 // import rateLimit from "express-rate-limit";
 
@@ -56,10 +47,21 @@ app.use(charactersRouter);
 
 //################# helmet middleware
 import helmet from "helmet"; // ECMAScript modules
-import { Server } from "http";
 app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
 
+import http from "http";
+const server = http.createServer(app)
+
+// ################### Socket.io
+import { Server } from 'socket.io';
+
+const io = new Server(server);
+
+io.on("connection", (socket) => {
+  console.log(socket.id)
+});
+
 const PORT = process.env.PORT || 9000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log("The server is running on port", PORT);
 });
