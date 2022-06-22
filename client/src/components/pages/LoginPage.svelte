@@ -91,10 +91,10 @@
         <div>
           <form>
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label>Email</label>
+            <label style="color: #fff; font-size: 15px; max-width: 1000px;">Email</label>
             <input type="text" placeholder="Email" bind:value={newUser.username} />
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label>Password</label>
+            <label style="color: #fff; font-size: 15px; max-width: 1000px;">Password</label>
             <input
               type="password"
               placeholder="Password"
@@ -112,13 +112,6 @@
         </div>
 
         <div class="" style="text-align: center; margin-top: 12px;">
-          <!-- <button
-            type="button"
-            style="padding: 12px 24px;width: 50%;background-color: transparent;color: white;border: 1px solid white;/* text-align: center; */"
-            href="/Login"
-            >Login
-          </button> -->
-
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"
           >

@@ -1,5 +1,6 @@
 <script>
   import { onMount } from "svelte";
+  import { navigate } from "svelte-navigator";
   import { user } from "../store/writeableStore";
 
   // global variable
@@ -11,7 +12,6 @@
   console.log("geh");
   onMount(async () => {
     console.log("heh");
-
     character = await getChar();
     character.items.sort((a, b) => a.slotId - b.slotId);
     items = await getItems();
@@ -44,11 +44,19 @@
       }),
     }).then((x) => console.log(x));
   }
+
+
+  async function logout() {
+    const res = await fetch(`/api/logout`);
+      navigate("/", { replace: true });  
+      $user = null; 
+  }
 </script>
 
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">
+      <button class="button" on:click={logout}>Logout</button>
       <p
         style="color: #fff; font-size: 48px; max-width: 1000px; text-align: center; margin: 0;"
       >
@@ -61,16 +69,16 @@
         <div class="" style="text-align: center; margin-top: 12px;">
           <div class="pos">
                 {#if character && character.class}
-                  <div class="card">
+                  <div class="card1">
                     <div class="class-img">
-                      <img src={character.class.imagePath} alt={character.class} />
+                      <img src={`./images/${character.class.imagePath}`} alt={character.class} />
                       <h3>{character.name}</h3>
                     </div>
                   </div>
                 {/if}
             {#if character && character.items && character.items.length > 0}
               {#each character?.items as item}
-                <div class="card">
+                <div class="card1">
                   <div class="c-box c-left">
                     <!-- <label for="items">Choose more items</label> -->
                     <select
@@ -86,7 +94,7 @@
                         </option>
                       {/each}
                     </select>
-                    <img src={item.imagePath} alt={item.name} />
+                    <img src={`./images/${item.imagePath}`} alt={item.name} />
                   </div>
                 </div>
               {/each}

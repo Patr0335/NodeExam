@@ -1,22 +1,22 @@
 <script>
   import { Router, Link, Route } from "svelte-navigator";
-  import { navigate } from "svelte-navigator";
   import PrivateRoute from "./components/pages/PrivateRoute.svelte";
   import FrontPage from "./components/pages/FrontPage.svelte";
   import LoginPage from "./components/pages/LoginPage.svelte";
   import ArmoryPage from "./components/pages/ArmoryPage.svelte";
   import ProfilePage from "./components/pages/ProfilePage.svelte";
+  import PublicProfile from "./components/pages/PublicProfile.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
   import { user } from "./components/store/writeableStore";
 
 let responseMessage = "";
 
 
-  async function logout() {
-    const res = await fetch(`/api/logout`);
-      navigate("/", { replace: true });  
-      $user = null; 
-  }
+  // async function logout() {
+  //   const res = await fetch(`/api/logout`);
+  //     navigate("/", { replace: true });  
+  //     $user = null; 
+  // }
   
 
   const options = {
@@ -57,9 +57,9 @@ let responseMessage = "";
           >
         </li>
 
-        <li class="li-style">
+        <!-- <li class="li-style">
           <button class="button" on:click={logout}>Logout</button>
-        </li>
+        </li> -->
 
       </ul>
     </nav>
@@ -67,9 +67,11 @@ let responseMessage = "";
       <LoginPage/>
     </Route>
 
+
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
     <Route path="/armory" component={ArmoryPage} />
+    <Route path="/armory/:characterId" component={PublicProfile} />
 
     <PrivateRoute path="/profile">
       <ProfilePage/>

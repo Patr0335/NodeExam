@@ -1,18 +1,12 @@
-
-.c-box{
-    width:50%;
-    display:inline-block;
-    
-}
-.c-left{
-    float:left;
-  
-}
-.c-right{
-    float:right; 
+.pos {
+    display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        /* grid-auto-rows: minmax(350px, 350px);
+        grid-auto-columns: minmax(350px, 350px); */
+        gap: 16px;
 }
 
-.class-img {
-    position: center;
-    z-index: 0;
-  }
+.card {
+    background-color: white;
+    cursor: pointer;
+}

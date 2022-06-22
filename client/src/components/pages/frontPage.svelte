@@ -20,16 +20,11 @@ var socket = io();
         >
           Welcome to the Immortal Armory
         </p>
-
-        <blz-button class="blz-button" label="PLAY">PLAY</blz-button>
+        <p style="color: #fff; font-size: 24px; max-width: 1000px; text-align: center; margin: 0;">
+          Move over to our Armory to search up a character or create a profile to make your own!
+        </p>
 
         <div class="" style="text-align: center; margin-top: 12px;">
-          <!-- <button
-            type="button"
-            style="padding: 12px 24px;width: 50%;background-color: transparent;color: white;border: 1px solid white;/* text-align: center; */"
-            href="/Login"
-            >Login
-          </button> -->
 
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

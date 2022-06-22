@@ -21,7 +21,7 @@ app.use(
 );
 
 //################### Socket.io
-const io = new Server(PORT);
+const io = new Server(app);
 
 io.on('connection', (socket) => {
   console.log('a user connected')

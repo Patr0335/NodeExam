@@ -10,31 +10,40 @@ router.get("/api/characters/:userid", async (req, res) => {
     WHERE characters.id = ${userid}
     `);
 
-    const items = await db.all(`SELECT * FROM items
+  const items = await db.all(`SELECT * FROM items
     JOIN charactersitems ON items.id = itemId
     WHERE charactersitems.characterId = ${userid}
     `);
 
-
-    
-    const c = await db.get(`SELECT * FROM classes
+  const c = await db.get(`SELECT * FROM classes
     JOIN characters ON characters.class = classes.id
     WHERE characters.id = ${userid}
-    `)
+    `);
 
-  res.send({...character, items, class:c});
+  res.send({ ...character, items, class: c });
 });
 
 router.get("/api/characters", async (req, res) => {
-  const characters = await db.all("SELECT * FROM characters ");
+  const characters = await db.all("SELECT * FROM characters");
 
-  res.send(characters);
+  // characters.forEach(async (character) => {
+  //   character.items = await db.all(`SELECT * FROM items
+  // JOIN charactersitems ON items.id = itemId
+  // WHERE charactersitems.characterId = ${character.id}
+  // `);
+
+  //   characters.class = await db.get(`SELECT * FROM classes
+  // JOIN characters ON characters.class = classes.id
+  // WHERE characters.id = ${character.id}
+  // `);
+// });
+console.log(characters);
+res.send(characters);
 });
 
 router.put("/api/characters/:characterid", async (req, res) => {
-
   const character = req.body;
-  console.log(character)
+  console.log(character);
   const updatedCharacter = await db.all(`UPDATE charactersitems 
     SET itemId = ${character.itemId} 
     WHERE slotId = ${character.slotId}
@@ -42,7 +51,5 @@ router.put("/api/characters/:characterid", async (req, res) => {
 
   res.send(updatedCharacter);
 });
-
-
 
 export default router;

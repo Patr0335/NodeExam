@@ -3,6 +3,24 @@ body {
 	margin: 0;
 }
 
+.c-box{
+    width:50%;
+    display:inline-block;
+    
+}
+.c-left{
+    float:left;
+  
+}
+.c-right{
+    float:right; 
+}
+
+.class-img {
+    position: center;
+    z-index: 0;
+  }
+
 /* html, body {
 	position: relative;
 	width: 100%;

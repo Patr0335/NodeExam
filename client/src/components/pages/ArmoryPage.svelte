@@ -1,29 +1,27 @@
 <script>
   import { onMount } from "svelte";
+  import { navigate } from "svelte-navigator";
 
-  let classes = [];
   let characters = [];
   let items = [];
 
   onMount(async () => {
-    classes = await getClasses();
     characters = await getChars();
-    items = await getItems();
+    // items = await getItems();
   });
 
-  async function getClasses() {
-    const res = await fetch("/api/classes");
-    return res.json();
-  }
-
-  async function getItems() {
-    const res = await fetch("/api/items");
-    return res.json();
-  }
+  // async function getItems() {
+  //   const res = await fetch("/api/items");
+  //   return res.json();
+  // }
 
   async function getChars() {
     const res = await fetch("/api/characters");
     return res.json();
+  }
+
+  async function navigateDetail(characterId) {
+    navigate(`/armory/${characterId}`, { replace: true });
   }
 </script>
 
@@ -43,40 +41,39 @@
       <div class="search-wrapper">
         <!-- <label for="search">Search Characters</label> -->
         <input type="search" id="search" placeholder="Character Name" />
+        <button>Find Character</button>
       </div>
+      <p
+        style="color: #fff; font-size: 32px; max-width: 1000px; text-align: center; margin: 10;"
+      >
+        List of all characters
+      </p>
       <div
         class="fpdiv2"
-        style="display:flex; flex-direction: column; justify-content: center;align-items: center;flex: 1;"
+        style="display:flex; flex-direction: column; justify-content: center;align-items: center;"
       >
         <div class="" style="text-align: center; margin-top: 12px;">
           <div class="pos">
-            {#each characters as character}
-              {#each classes as c}
-                {#if character.class == c.id}
-                  <div class="card">
-                    <div class="class-img">
-                      <img src={c.imagePath} alt={c.class} />
-                      <h3>{character.name}</h3>
-                    </div>
+            {#if characters && characters.length > 0}
+              {#each characters as character}
+                <div class="card" on:click={navigateDetail(character.id)}>
+                  <div class="class-img">
+                    <h3>{character.name}</h3>
                   </div>
-                {/if}
+                </div>
               {/each}
-              {#each items as item}
+            {/if}
+            <!-- {#if characters && characters.items && characters.items.length > 0}
+              {#each characters?.items as item}
                 <div class="card">
                   <div class="c-box c-left">
-                    <!-- <label for="items">Choose more items</label> -->
+                    
                     <img src={item.imagePath} alt={item.name} />
                   </div>
                 </div>
               {/each}
-            {/each}
+            {/if} -->
           </div>
-          <!-- <button
-            style="padding: 12px 24px;width: 50%;background-color: transparent;color: white;border: 1px solid white;/* text-align: center; */"
-            href="/Login"
-            >Save Changes
-          </button> -->
-
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"
           >
@@ -87,3 +84,17 @@
     </div>
   </div>
 </body>
+
+<style lang="css">
+  .pos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    
+    gap: 16px;
+  }
+
+  .card {
+    background-color: white;
+    cursor: pointer;
+  }
+</style>
