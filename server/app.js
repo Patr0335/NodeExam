@@ -53,9 +53,9 @@ import http from "http";
 const server = http.createServer(app)
 
 // ################### Socket.io
-import { Server } from 'socket.io';
+import {init, getIO} from './socket.js';
 
-const io = new Server(server);
+const io = init(server)
 
 io.on("connection", (socket) => {
   console.log(socket.id)

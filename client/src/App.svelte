@@ -7,10 +7,13 @@
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-  
+  import { io } from "socket.io-client";
 
+  const socket = io("ws://localhost:9000");
 
-
+  socket.on("connect", (x) => {
+    console.log("Connected to socket");
+  });
 
   const options = {
     theme: {
@@ -20,8 +23,6 @@
       intro: { y: 192 },
     },
   };
-
- 
 </script>
 
 <main>
@@ -33,9 +34,7 @@
         </li>
 
         <li class="li-style">
-          <Link to="/"
-            ><button class="button" to="/">Home</button></Link
-          >
+          <Link to="/"><button class="button" to="/">Home</button></Link>
         </li>
 
         <li class="li-style">
@@ -49,13 +48,11 @@
             ><button class="button" to="/profile">Profile</button></Link
           >
         </li>
-
       </ul>
     </nav>
     <Route path="login">
-      <LoginPage/>
+      <LoginPage />
     </Route>
-
 
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
@@ -63,9 +60,9 @@
     <Route path="/armory/:characterId" component={PublicProfile} />
 
     <PrivateRoute path="/profile">
-      <ProfilePage/>
+      <ProfilePage />
       <!-- <h3>Welcome {$user.username}</h3> -->
-  </PrivateRoute>
+    </PrivateRoute>
   </Router>
 </main>
 

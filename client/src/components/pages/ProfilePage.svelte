@@ -10,6 +10,12 @@
   let availableItems = [];
   let selecteds = [];
 
+  const socket = io("ws://localhost:9000");
+
+  socket.on("character", () => {
+    console.log("hsbgfjhdfgdfg");
+  });
+
   onMount(async () => {
     character = await getChar();
     character.items.sort((a, b) => a.slotId - b.slotId);
@@ -30,7 +36,7 @@
     return res.json();
   }
 
-  function selectedItem(itemId, slotId) {
+  function selectedItem(itemId, slotId, index) {
     fetch(`/api/characters/${$user.id}`, {
       headers: {
         "content-type": "application/json",
@@ -40,10 +46,15 @@
         itemId,
         slotId,
       }),
-    }).then((x) => console.log(x));
-    io.on("connection", (socket) => {
-      socket.broadcast.emit("hi");
-    });
+    })
+      .then((x) => x.json())
+      .then((x) => {
+        //
+        const some = x;
+        const items = [...character.items]
+        items[index].itemId = +some.itemId;
+        character = {...character, items}
+      });
   }
 
   async function logout() {
@@ -80,7 +91,7 @@
               </div>
             {/if}
             {#if character && character.items && character.items.length > 0}
-              {#each character?.items as item}
+              {#each character?.items as item, i}
                 <div class="card1">
                   <div class="c-box c-left">
                     <!-- <label for="items">Choose more items</label> -->
@@ -89,7 +100,7 @@
                       id="selectedValue"
                       bind:value={item.id}
                       on:change={(y) =>
-                        selectedItem(y.target.value, item.slotId)}
+                        selectedItem(y.target.value, item.slotId, i)}
                     >
                       {#each availableItems as availableItem (availableItem.id)}
                         <option value={availableItem.id}

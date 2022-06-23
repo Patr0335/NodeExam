@@ -10,6 +10,14 @@
   let character = {};
   const params = useParams();
 
+  const socket = io("ws://localhost:9000");
+
+  socket.on("character", (x) => {
+    console.log('hsbgfjhdfgdfg')
+    console.log(x)
+    character = x;
+  });
+
   onMount(async () => {
     socket.connect()
     console.log($params)
@@ -20,12 +28,6 @@
     const res = await fetch(`/api/characters/${characterId}`);
     return res.json();
   }
-
-  const socket = io('http://localhost:9000');
-
-  socket.on('connect', () => {
-    console.log(`You connected with id: ${socket.id}`); 
-  });
 </script>
 
 <body class="fpbody">
