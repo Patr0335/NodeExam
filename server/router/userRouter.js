@@ -2,17 +2,18 @@ import { Router } from "express";
 import db from "../database/createConnection.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
+import dotenv from 'dotenv';
+dotenv.config();
 
 const saltRounds = 12;
 const router = Router();
 
 // Login
 router.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
+  const { username, password } = req.body; // object destructuring - body must contain username and password variables (lefthand side of = req.body)
   const userFound = await db.get("SELECT * FROM users WHERE username = ?", [
     username,
   ]);
-  console.log(userFound);
 
   if (!userFound) {
     res.status(400);
@@ -20,13 +21,8 @@ router.post("/api/login", async (req, res) => {
   }
 
   const samePass = await bcrypt.compare(password, userFound.password);
-  console.log(samePass)
-  console.log(password,userFound.password)
-  // if (userFound.password === password) {
-    // && !req.session.loggedIn
   if (req.session.loggedIn) { // logged in return user
-    req.session.loggedIn = true;
-    req.session.username = username;
+    req.session.username = username; // assigns username to session
     return res.json({username: userFound.username, id: userFound.id});
   } else if (samePass && !req.session.loggedIn) { // if not logged in & wrote correct user it logs in
     req.session.loggedIn = true;
@@ -47,11 +43,12 @@ router.post("/api/signup", async (req, res) => {
   ]);
 
   if (sameUser) {
-    return res.status(404).send("There is already a user with that email");
+    return res.status(400).send("There is already a user with that email");
   }
 
   const hashedPass = await bcrypt.hash(password, saltRounds);
 
+  //db.run returns object with property changes that I destucture.
   const { changes } = await db.run(
     `INSERT INTO users (username, password) VALUES (?, ?)`,
     [username, hashedPass]
@@ -69,17 +66,14 @@ router.post("/api/signup", async (req, res) => {
 router.get("/api/logout", (req, res) => {
   if (req.session.loggedIn) {
     req.session.loggedIn = false;
-    const username = req.session.username;
-    return res.send("Logout: " + username);
+    req.session.username = null;
+    return res.send('Logged out');
   }
 
   res.send("You're not logged in");
 });
 
 // Nodemailer
-import dotenv from "dotenv";
-dotenv.config();
-
 function welcomeMail(username) {
   let mailTransporter = nodemailer.createTransport({
     service: "gmail",

@@ -6,7 +6,7 @@ import cors from "cors"; //above all other import routes
 app.use(cors()); // run frontend and backend on same localhost
 
 import path from "path";
-app.use(express.static(path.resolve("../client/public"))); // Serves my svelte.
+app.use(express.static(path.resolve("../client/public"))); // Serves my svelte. - server-side rendering
 
 //################# sessions
 import session from "express-session";
@@ -50,16 +50,12 @@ import helmet from "helmet"; // ECMAScript modules
 app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
 
 import http from "http";
-const server = http.createServer(app)
+const server = http.createServer(app);
 
 // ################### Socket.io
-import {init, getIO} from './socket.js';
+import { init } from "./socket.js";
 
-const io = init(server)
-
-io.on("connection", (socket) => {
-  console.log(socket.id)
-});
+const io = init(server);
 
 const PORT = process.env.PORT || 9000;
 server.listen(PORT, () => {

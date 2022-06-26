@@ -1,33 +1,21 @@
 <script>
   import { onMount } from "svelte";
   import { navigate } from "svelte-navigator";
-  import { user } from "../store/writeableStore";
-  import { io } from "socket.io-client";
+  import { user } from "../store/writeableStore"; // subscribable variable
 
-  // global variable
   let character = {};
   let items = [];
   let availableItems = [];
-  let selecteds = [];
-
-  const socket = io("ws://localhost:9000");
-
-  socket.on("character", () => {
-    console.log("hsbgfjhdfgdfg");
-  });
 
   onMount(async () => {
     character = await getChar();
     character.items.sort((a, b) => a.slotId - b.slotId);
     items = await getItems();
-    availableItems = [...items];
-    availableItems.forEach((x, i) => {
-      selecteds.push(i + 1);
-    });
+    availableItems = [...items]; // create new instance of an Array and assign it to availableItems.
   });
 
   async function getChar() {
-    const res = await fetch(`/api/characters/${$user.id}`);
+    const res = await fetch(`/api/characters/${$user.id}`); // ${String interpolation} - $user=autosubscription
     return res.json();
   }
 
@@ -47,13 +35,13 @@
         slotId,
       }),
     })
-      .then((x) => x.json())
+      .then((x) => x.json()) // promise chaining. forfillment of my fetch call from line 28. unwrap response.json, returns new promise
       .then((x) => {
-        //
-        const some = x;
-        const items = [...character.items]
-        items[index].itemId = +some.itemId;
-        character = {...character, items}
+        // .then on the new promise which gives me response in json.
+
+        const items = [...character.items];
+        items[index].itemId = +x.itemId;
+        character = { ...character, items };
       });
   }
 
@@ -103,6 +91,7 @@
                         selectedItem(y.target.value, item.slotId, i)}
                     >
                       {#each availableItems as availableItem (availableItem.id)}
+                        <!-- we use id for value but display availableItem.name -->
                         <option value={availableItem.id}
                           >{availableItem.name}
                         </option>

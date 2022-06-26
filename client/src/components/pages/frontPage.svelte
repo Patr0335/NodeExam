@@ -1,8 +1,3 @@
-<!-- <script src="/socket.io/socket.io.js">
-var socket = io();
-</script> -->
-
-
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">

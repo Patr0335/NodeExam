@@ -12,7 +12,6 @@
   const socket = io("ws://localhost:9000");
 
   socket.on("connect", (x) => {
-    console.log("Connected to socket");
   });
 
   const options = {
@@ -50,10 +49,7 @@
         </li>
       </ul>
     </nav>
-    <Route path="login">
-      <LoginPage />
-    </Route>
-
+    <Route path="login" component={LoginPage}/>
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
     <Route path="/armory" component={ArmoryPage} />
@@ -61,7 +57,6 @@
 
     <PrivateRoute path="/profile">
       <ProfilePage />
-      <!-- <h3>Welcome {$user.username}</h3> -->
     </PrivateRoute>
   </Router>
 </main>
@@ -69,8 +64,6 @@
 <style>
   main {
     text-align: center;
-    /* padding: 1em; */
-    /* max-width: 240px; */
     margin: 0;
   }
 
@@ -84,7 +77,6 @@
     list-style: none;
     margin: 0;
     background-color: black;
-    /* height: 100px; */
   }
 
   .li-style {
@@ -93,8 +85,6 @@
     font-size: 48px;
     font-weight: 600;
     cursor: default;
-
-    /* height: 100px; */
   }
 
   .button {

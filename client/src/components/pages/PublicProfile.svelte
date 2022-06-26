@@ -13,8 +13,6 @@
   const socket = io("ws://localhost:9000");
 
   socket.on("character", (x) => {
-    console.log('hsbgfjhdfgdfg')
-    console.log(x)
     character = x;
   });
 
