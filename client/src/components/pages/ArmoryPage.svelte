@@ -16,7 +16,6 @@
   async function navigateDetail(characterId) {
     navigate(`/armory/${characterId}`, { replace: true });
   }
-
 </script>
 
 <body class="fpbody">
@@ -33,7 +32,6 @@
         Search for a character name
       </p>
       <div class="search-wrapper">
-        <!-- <label for="search">Search Characters</label> -->
         <input type="search" id="search" placeholder="Character Name" />
         <button>Find Character</button>
       </div>
@@ -57,16 +55,6 @@
                 </div>
               {/each}
             {/if}
-            <!-- {#if characters && characters.items && characters.items.length > 0}
-              {#each characters?.items as item}
-                <div class="card">
-                  <div class="c-box c-left">
-                    
-                    <img src={item.imagePath} alt={item.name} />
-                  </div>
-                </div>
-              {/each}
-            {/if} -->
           </div>
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

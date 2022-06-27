@@ -22,13 +22,13 @@ router.put("/api/characters/:characterid", async (req, res) => {
   SET itemId = ${charactersitems.itemId} 
   WHERE slotId = ${charactersitems.slotId}
   AND characterId = ${req.params.characterid}`);
-  
+
   //Getting my char again after my update.
-  const char = await getCharacter(req.params.characterid); 
-  
+  const char = await getCharacter(req.params.characterid);
+
   // update char through socket.io
   const io = getIO();
-  io.emit('character', char);
+  io.emit("character", char);
   res.send(charactersitems);
 });
 
@@ -37,18 +37,18 @@ async function getCharacter(userid) {
   const character = await db.get(`SELECT * FROM characters
   WHERE characters.id = ${userid}
   `);
-  
+
   const items = await db.all(`SELECT * FROM items
   JOIN charactersitems ON items.id = itemId
   WHERE charactersitems.characterId = ${userid}
   `);
-  
+
   const c = await db.get(`SELECT * FROM classes
   JOIN characters ON characters.class = classes.id
   WHERE characters.id = ${userid}
   `);
 
-  return {...character, items, class:c}
+  return { ...character, items, class: c };
 }
 
 export default router;

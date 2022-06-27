@@ -109,7 +109,7 @@ await db.run(`INSERT INTO slots (id, name)VALUES (4, 'Legs')`);
 await db.run(`INSERT INTO slots (id, name)VALUES (5, 'OffHand')`);
 await db.run(`INSERT INTO slots (id, name)VALUES (6, 'Weapon')`);
 
-await db.run(`INSERT INTO charactersitems VALUES (1, 1, 1)`);
+await db.run(`INSERT INTO charactersitems VALUES (1, 1, 1)`); // (characterid, itemid, slotid )
 await db.run(`INSERT INTO charactersitems VALUES (1, 2, 2)`);
 await db.run(`INSERT INTO charactersitems VALUES (1, 3, 3)`);
 await db.run(`INSERT INTO charactersitems VALUES (1, 4, 4)`);

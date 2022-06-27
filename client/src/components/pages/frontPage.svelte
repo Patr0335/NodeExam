@@ -1,7 +1,8 @@
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">
-      <div class="fpdiv2"
+      <div
+        class="fpdiv2"
         style="display:flex; flex-direction: column; justify-content: center;align-items: center;flex: 1;"
       >
         <!-- svelte-ignore a11y-missing-attribute -->
@@ -15,12 +16,14 @@
         >
           Welcome to the Immortal Armory
         </p>
-        <p style="color: #fff; font-size: 24px; max-width: 1000px; text-align: center; margin: 0;">
-          Move over to our Armory to search up a character or create a profile to make your own!
+        <p
+          style="color: #fff; font-size: 24px; max-width: 1000px; text-align: center; margin: 0;"
+        >
+          Move over to our Armory to search up a character or create a profile
+          to make your own!
         </p>
 
         <div class="" style="text-align: center; margin-top: 12px;">
-
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"
           >

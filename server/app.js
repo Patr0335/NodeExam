@@ -45,6 +45,7 @@ app.use(itemsRouter);
 import charactersRouter from "./router/charactersRouter.js";
 app.use(charactersRouter);
 
+
 //################# helmet middleware
 import helmet from "helmet"; // ECMAScript modules
 app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
@@ -55,7 +56,9 @@ const server = http.createServer(app);
 // ################### Socket.io
 import { init } from "./socket.js";
 
-const io = init(server);
+init(server); 
+
+
 
 const PORT = process.env.PORT || 9000;
 server.listen(PORT, () => {

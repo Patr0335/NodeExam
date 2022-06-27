@@ -3,10 +3,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { user } from "../store/writeableStore";
 
-
-
-
-  //################################### LOGIN
+  //################################### SIGNUP & LOGIN
 
   let newUser = {};
   let errorMessage = "";
@@ -54,11 +51,11 @@
       method: "POST",
       body: JSON.stringify(newUser),
     });
-    responseMessage = await res.json(); 
+    responseMessage = await res.json();
     if (res.status === 200) {
       // $user = JSON.parse(res.json);
-      console.log(responseMessage)
-      $user = {...responseMessage}
+      console.log(responseMessage);
+      $user = { ...responseMessage };
 
       navigate("/profile", { replace: true });
     } else {
@@ -70,17 +67,18 @@
       });
     }
   }
-
 </script>
+
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">
       <p
-          style="color: #fff; font-size: 48px; max-width: 1000px; text-align: center; margin: 0;"
-        >
-          Login/Register to see your profile 
-        </p>
-      <div class="fpdiv2"
+        style="color: #fff; font-size: 48px; max-width: 1000px; text-align: center; margin: 0;"
+      >
+        Login/Register to see your profile
+      </p>
+      <div
+        class="fpdiv2"
         style="display:flex; flex-direction: column; justify-content: center;align-items: center;flex: 1;"
       >
         <!-- svelte-ignore a11y-missing-attribute -->
@@ -91,10 +89,18 @@
         <div>
           <form>
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label style="color: #fff; font-size: 15px; max-width: 1000px;">Email</label>
-            <input type="text" placeholder="Email" bind:value={newUser.username} />
+            <label style="color: #fff; font-size: 15px; max-width: 1000px;"
+              >Email</label
+            >
+            <input
+              type="text"
+              placeholder="Email"
+              bind:value={newUser.username}
+            />
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            <label style="color: #fff; font-size: 15px; max-width: 1000px;">Password</label>
+            <label style="color: #fff; font-size: 15px; max-width: 1000px;"
+              >Password</label
+            >
             <input
               type="password"
               placeholder="Password"
@@ -106,9 +112,9 @@
             <button type="button" class="btn btn-black" on:click={() => login()}
               >Login</button
             >
-            <button type="button" on:click={() => signupUser()}>Register</button>
+            <button type="button" on:click={() => signupUser()}>Register</button
+            >
           </form>
-        
         </div>
 
         <div class="" style="text-align: center; margin-top: 12px;">
@@ -122,8 +128,6 @@
     </div>
   </div>
 </body>
-
-
 
 <style>
   /* .background {

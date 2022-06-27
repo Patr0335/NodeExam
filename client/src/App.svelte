@@ -7,12 +7,6 @@
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-  import { io } from "socket.io-client";
-
-  const socket = io("ws://localhost:9000");
-
-  socket.on("connect", (x) => {
-  });
 
   const options = {
     theme: {
@@ -25,7 +19,7 @@
 </script>
 
 <main>
-  <Router>
+  <Router primary={false}>
     <nav class="Nav-style">
       <ul class="ul-style">
         <li class="li-style">
@@ -49,7 +43,7 @@
         </li>
       </ul>
     </nav>
-    <Route path="login" component={LoginPage}/>
+    <Route path="/login" component={LoginPage} />
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
     <Route path="/armory" component={ArmoryPage} />

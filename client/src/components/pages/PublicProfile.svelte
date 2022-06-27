@@ -1,7 +1,3 @@
-<style lang="css">
-  @import '../../public/PublicProfile.css';
-</style>
-
 <script>
   import { onMount } from "svelte";
   import { useParams } from "svelte-navigator";
@@ -17,8 +13,6 @@
   });
 
   onMount(async () => {
-    socket.connect()
-    console.log($params)
     character = await getChar($params.characterId);
   });
 
@@ -45,7 +39,10 @@
             {#if character && character.class}
               <div class="card">
                 <div class="class-img">
-                  <img src={`../images/${character.class.imagePath}`} alt={character.class} />
+                  <img
+                    src={`../images/${character.class.imagePath}`}
+                    alt={character.class}
+                  />
                   <h3>{character.name}</h3>
                 </div>
               </div>

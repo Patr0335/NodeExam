@@ -2,7 +2,7 @@ import { Router } from "express";
 import db from "../database/createConnection.js";
 import nodemailer from "nodemailer";
 import bcrypt from "bcrypt";
-import dotenv from 'dotenv';
+import dotenv from "dotenv";
 dotenv.config();
 
 const saltRounds = 12;
@@ -21,14 +21,16 @@ router.post("/api/login", async (req, res) => {
   }
 
   const samePass = await bcrypt.compare(password, userFound.password);
-  if (req.session.loggedIn) { // logged in return user
+  if (req.session.loggedIn) {
+    // logged in return user
     req.session.username = username; // assigns username to session
-    return res.json({username: userFound.username, id: userFound.id});
-  } else if (samePass && !req.session.loggedIn) { // if not logged in & wrote correct user it logs in
+    return res.json({ username: userFound.username, id: userFound.id });
+  } else if (samePass && !req.session.loggedIn) {
+    // if not logged in & wrote correct user it logs in
     req.session.loggedIn = true;
     req.session.username = username;
-    return res.json({username: userFound.username, id: userFound.id});
-  } else { 
+    return res.json({ username: userFound.username, id: userFound.id });
+  } else {
     res.status(401);
     return res.send("you messed up");
   }
@@ -67,7 +69,7 @@ router.get("/api/logout", (req, res) => {
   if (req.session.loggedIn) {
     req.session.loggedIn = false;
     req.session.username = null;
-    return res.send('Logged out');
+    return res.send("Logged out");
   }
 
   res.send("You're not logged in");
