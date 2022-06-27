@@ -9,8 +9,9 @@
 
   onMount(async () => {
     character = await getChar();
-    character.items.sort((a, b) => a.slotId - b.slotId);
+    character.items.sort((a, b) => a.slotId - b.slotId); // arrow function that compares
     items = await getItems();
+    items.sort()
     availableItems = [...items]; // create new instance of an Array and assign it to availableItems.
   });
 

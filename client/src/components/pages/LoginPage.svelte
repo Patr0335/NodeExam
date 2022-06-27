@@ -53,9 +53,8 @@
     });
     responseMessage = await res.json();
     if (res.status === 200) {
-      // $user = JSON.parse(res.json);
       console.log(responseMessage);
-      $user = { ...responseMessage };
+      $user = { ...responseMessage }; // saves in store
 
       navigate("/profile", { replace: true });
     } else {
