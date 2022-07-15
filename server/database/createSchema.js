@@ -5,6 +5,7 @@ import bcrypt from "bcrypt";
 
 const saltRounds = 12;
 const admin = await bcrypt.hash(process.env.ADMIN_PASS, saltRounds);
+const user1 = await bcrypt.hash(process.env.USER1_PASS, saltRounds);
 
 await db.exec(`DROP TABLE IF EXISTS users;`);
 await db.exec(`DROP TABLE IF EXISTS classes;`);
@@ -14,7 +15,8 @@ await db.exec(`DROP TABLE IF EXISTS characters;`);
 await db.exec(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     username VARCHAR(80),
-    password VARCHAR(150)  
+    password VARCHAR(150),
+    isAdmin BOOLEAN
 );`);
 
 await db.exec(`CREATE TABLE IF NOT EXISTS classes (
@@ -131,7 +133,11 @@ await db.run(`INSERT INTO charactersitems VALUES (3, 5, 5)`);
 await db.run(`INSERT INTO charactersitems VALUES (3, 6, 6)`);
 
 await db.run(
-  `INSERT INTO users (username, password) VALUES ('patrickherfolge@gmail.com', '${admin}')`
+  `INSERT INTO users (username, password, isAdmin) VALUES ('patricklindahl91@gmail.com', '${admin}', true)`
+);
+
+await db.run(
+  `INSERT INTO users (username, password, isAdmin) VALUES ('test@gmail.com', '${user1}', false)`
 );
 
 db.close();

@@ -9,4 +9,10 @@ router.get("/api/items", async (req, res) => {
   res.send(items);
 });
 
+// router.post("/api/items", async (req, res) => {
+//   const items = await db.all("INSERT INTO items VALUES (?, ?, ?);")
+// })
+
 export default router;
+
+

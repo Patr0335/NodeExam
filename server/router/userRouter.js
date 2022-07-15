@@ -24,19 +24,54 @@ router.post("/api/login", async (req, res) => {
   if (req.session.loggedIn) {
     // logged in return user
     req.session.username = username; // assigns username to session
-    return res.json({ username: userFound.username, id: userFound.id });
+    return res.json({ username: userFound.username, id: userFound.id, isAdmin: userFound.isAdmin });
   } else if (samePass && !req.session.loggedIn) {
     // if not logged in & wrote correct user it logs in
     req.session.loggedIn = true;
     req.session.username = username;
-    return res.json({ username: userFound.username, id: userFound.id });
+    return res.json({ username: userFound.username, id: userFound.id, isAdmin: userFound.isAdmin });
   } else {
     res.status(401);
     return res.send("you messed up");
   }
 });
 
+// // admin login
+// router.post("/api/adminLogin", async (req, res) => {
+//   const { username, password } = req.body; // object destructuring - body must contain username and password variables (lefthand side of = req.body)
+//   const userFound = await db.get("SELECT * FROM users WHERE username = ?", [
+//     username,
+//   ]);
+
+//   if (!userFound) {
+//     res.status(400);
+//     return res.send("User doesnt exist");
+//   }
+
+//   // nyt
+//   if(userFound.username === username && userFound.isAdmin === 0) {
+//     return res.status(404).send("Adgang nægtet, brugeren er ikke Admin")
+
+// }
+
+//   const samePass = await bcrypt.compare(password, userFound.password);
+//   if (req.session.loggedIn) {
+//     // logged in return user
+//     req.session.username = username; // assigns username to session
+//     return res.json({ username: userFound.username, id: userFound.id });
+//   } else if (samePass && !req.session.loggedIn && userFound.is, userFound.isAdmin === 1) {
+//     // if not logged in & wrote correct user it logs in
+//     req.session.loggedIn = true;
+//     req.session.username = username;
+//     return res.json({ username: userFound.username, id: userFound.id });
+//   } else {
+//     res.status(401);
+//     return res.send("admin mess");
+//   }
+// });
+
 // Signup
+// Forskellen på en api og rest api = 
 router.post("/api/signup", async (req, res) => {
   const { username, password } = req.body;
 
@@ -63,6 +98,14 @@ router.post("/api/signup", async (req, res) => {
 
   res.send("Signup fail");
 });
+
+
+// // Get all users (til admin side)
+// router.get("/api/users", async (req, res) => {
+//   const users = await db.all(`SELECT * FROM users`);
+
+//   res.send( { data: users } );
+// });
 
 // Logout
 router.get("/api/logout", (req, res) => {

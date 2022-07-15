@@ -1,11 +1,14 @@
 <script>
   import { Router, Link, Route } from "svelte-navigator";
   import PrivateRoute from "./components/pages/PrivateRoute.svelte";
+  import AdminRoute from "./components/pages/AdminRoute.svelte";
   import FrontPage from "./components/pages/FrontPage.svelte";
   import LoginPage from "./components/pages/LoginPage.svelte";
+  import AdminPage from "./components/pages/AdminPage.svelte";
   import ArmoryPage from "./components/pages/ArmoryPage.svelte";
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
+  import { user } from "./components/store/writeableStore";
   import { SvelteToast } from "@zerodevx/svelte-toast";
 
   const options = {
@@ -41,17 +44,37 @@
             ><button class="button" to="/profile">Profile</button></Link
           >
         </li>
+        <!-- Optional chaining -->
+        {#if $user?.isAdmin} 
+        <li class="li-style">
+          <Link to="/admin"
+            ><button class="button" to="/admin">Admin Page</button></Link
+          >
+        </li>
+        {/if}
       </ul>
     </nav>
+    <!-- <Route path="/adminLogin" component={AdminLogin} /> -->
     <Route path="/login" component={LoginPage} />
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
     <Route path="/armory" component={ArmoryPage} />
     <Route path="/armory/:characterId" component={PublicProfile} />
+    
 
     <PrivateRoute path="/profile">
       <ProfilePage />
     </PrivateRoute>
+
+
+    <PrivateRoute path="/admin">
+      <AdminRoute>
+        <AdminPage/>
+      </AdminRoute>
+    </PrivateRoute>
+    
+
+
   </Router>
 </main>
 

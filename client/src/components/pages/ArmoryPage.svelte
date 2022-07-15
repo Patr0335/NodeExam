@@ -29,11 +29,11 @@
       <p
         style="color: #fff; font-size: 32px; max-width: 1000px; text-align: center; margin: 10;"
       >
-        Search for a character name
+        <!-- Search for a character name -->
       </p>
       <div class="search-wrapper">
-        <input type="search" id="search" placeholder="Character Name" />
-        <button>Find Character</button>
+        <!-- <input type="search" id="search" placeholder="Character Name" />
+        <button>Find Character</button> -->
       </div>
       <p
         style="color: #fff; font-size: 32px; max-width: 1000px; text-align: center; margin: 10;"

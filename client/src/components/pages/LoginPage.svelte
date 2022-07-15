@@ -55,8 +55,11 @@
     if (res.status === 200) {
       console.log(responseMessage);
       $user = { ...responseMessage }; // saves in store
-
-      navigate("/profile", { replace: true });
+      if ($user.isAdmin) {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/profile", { replace: true });
+      }
     } else {
       toast.push("User doesnt exist", {
         theme: {
@@ -129,29 +132,7 @@
 </body>
 
 <style>
-  /* .background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100vh;
-    width: 100vw;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: 2;
-  }
-
-  .login-box {
-    position: fixed;
-    margin: 20vh auto;
-    height: 200px;
-    width: 400px;
-    color: white;
-    z-index: 5;
-    padding: 15px;
-    background-color: rgb(7, 7, 7);
-    border: solid 5px white;
-  } */
-
-  .btn-black {
+   .btn-black {
     background-color: #000 !important;
     color: #fff;
   }
