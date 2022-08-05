@@ -29,7 +29,9 @@ await db.exec(`CREATE TABLE IF NOT EXISTS items (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     name VARCHAR(80),
     grade VARCHAR(80),
-    imagePath VARCHAR(120)
+    imagePath VARCHAR(120),
+    slotId INTEGER,
+    FOREIGN KEY(slotId) REFERENCES slots(id)
 );`);
 
 //relationship - many to many
@@ -76,22 +78,25 @@ await db.run(
 );
 
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('Helm of KEA', 'Rare', 'BarbarianHelm.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Helm of KEA', 'Rare', 'BarbarianHelm.jpg', 1)`
 );
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('Shoulders of KEA', 'Rare', 'BarbarianShoulders.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Shoulders of KEA', 'Rare', 'BarbarianShoulders.jpg', 2)`
 );
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('Chest of KEA', 'Rare', 'BarbarianChest.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Chest of KEA', 'Rare', 'BarbarianChest.jpg', 3)`
 );
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('Legs of KEA', 'Rare', 'BarbarianLegs.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Legs of KEA', 'Rare', 'BarbarianLegs.jpg', 4)`
 );
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('OffHand of KEA', 'Rare', 'BarbarianOffHand.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('OffHand of KEA', 'Rare', 'BarbarianOffHand.jpg', 5)`
 );
 await db.run(
-  `INSERT INTO items (name, grade, imagePath) VALUES ('Weapon of KEA', 'Rare', 'BarbarianWeapon.jpg')`
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Weapon of KEA', 'Rare', 'BarbarianWeapon.jpg', 6)`
+);
+await db.run(
+  `INSERT INTO items (name, grade, imagePath, slotId) VALUES ('Weapon of Svelte', 'Rare', 'BarbarianWeapon2.jpg', 6)`
 );
 
 await db.run(
