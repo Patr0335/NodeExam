@@ -1,0 +1,44 @@
+.table-container {
+    width: 100%;
+    height: 100%;
+}
+
+.table {
+    height: 100%;
+    width: 100%;
+}
+
+td {
+    padding: 12px 24px;
+}
+tbody tr:nth-child(odd) {
+    background-color: #e06a6a;
+}
+
+tbody tr:hover {
+    background-color: #de4a4a; 
+    cursor: pointer;
+}
+
+.search-bar {
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-align: left;
+    
+}
+
+.searchbar-container {
+    margin-left: auto;
+    padding: 12px;
+}
+
+.search-table-layout {
+    display: flex;
+    justify-content: end;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+    gap: 8px;
+}

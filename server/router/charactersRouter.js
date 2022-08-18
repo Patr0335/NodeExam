@@ -16,7 +16,7 @@ router.get("/api/characters", async (req, res) => {
 });
 
 // updater my charactersitems relationship table
-router.put("/api/characters/:characterid", async (req, res) => {
+router.patch("/api/characters/:characterid", async (req, res) => {
   const charactersitems = req.body;
   await db.all(`UPDATE charactersitems 
   SET itemId = ${charactersitems.itemId} 

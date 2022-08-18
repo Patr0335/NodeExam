@@ -8,8 +8,11 @@
   import ArmoryPage from "./components/pages/ArmoryPage.svelte";
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
+  import ProductPage from "./components/pages/ProductPage.svelte";
   import { user } from "./components/store/writeableStore";
   import { SvelteToast } from "@zerodevx/svelte-toast";
+import ShoppingCart from "./components/pages/ShoppingCart.svelte";
+
 
   const options = {
     theme: {
@@ -40,41 +43,44 @@
         </li>
 
         <li class="li-style">
+          <Link to="/products"
+            ><button class="button" to="/products">DI-Merchandise</button></Link
+          >
+        </li>
+
+        <li class="li-style">
           <Link to="/profile"
             ><button class="button" to="/profile">Profile</button></Link
           >
         </li>
+
         <!-- Optional chaining -->
-        {#if $user?.isAdmin} 
-        <li class="li-style">
-          <Link to="/admin"
-            ><button class="button" to="/admin">Admin Page</button></Link
-          >
-        </li>
+        {#if $user?.isAdmin}
+          <li class="li-style">
+            <Link to="/admin"
+              ><button class="button" to="/admin">Admin Page</button></Link
+            >
+          </li>
         {/if}
       </ul>
     </nav>
-    <!-- <Route path="/adminLogin" component={AdminLogin} /> -->
     <Route path="/login" component={LoginPage} />
     <Route path="/" component={FrontPage} />
     <SvelteToast {options} />
     <Route path="/armory" component={ArmoryPage} />
     <Route path="/armory/:characterId" component={PublicProfile} />
-    
+    <Route path="/products" component={ProductPage} />
+    <Route path="/Shop" component={ShoppingCart} />
 
     <PrivateRoute path="/profile">
       <ProfilePage />
     </PrivateRoute>
 
-
     <PrivateRoute path="/admin">
       <AdminRoute>
-        <AdminPage/>
+        <AdminPage />
       </AdminRoute>
     </PrivateRoute>
-    
-
-
   </Router>
 </main>
 

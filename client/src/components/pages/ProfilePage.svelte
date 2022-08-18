@@ -40,7 +40,7 @@
       headers: {
         "content-type": "application/json",
       },
-      method: "PUT",
+      method: "PATCH",
       body: JSON.stringify({
         itemId,
         slotId,
@@ -53,12 +53,16 @@
         const currentItems = [...character.items];
         console.log(items.find((y) => y.id === +x.itemId))
         currentItems[index] = items.find((y) => y.id === +x.itemId); // no {} = returns immidiately
-        character = { ...character, items:[...currentItems] };
+        let temporaryChar = { ...character}
+        temporaryChar.items = currentItems;
+        character = temporaryChar;
+        // character = { ...character, items:[...currentItems] };
+        console.log(temporaryChar)
       });
   }
 
   async function logout() {
-    const res = await fetch(`/api/logout`);
+    await fetch(`/api/logout`);
     navigate("/", { replace: true });
     $user = null;
   }

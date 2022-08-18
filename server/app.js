@@ -32,6 +32,10 @@ app.use(
 
 // app.use(baseLimiter); // ddos prevention
 
+//################# helmet middleware
+import helmet from "helmet"; // ECMAScript modules
+app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
+
 //################# router
 import userRouter from "./router/userRouter.js";
 app.use(userRouter);
@@ -45,10 +49,8 @@ app.use(itemsRouter);
 import charactersRouter from "./router/charactersRouter.js";
 app.use(charactersRouter);
 
-
-//################# helmet middleware
-import helmet from "helmet"; // ECMAScript modules
-app.use("/api", helmet()); // adds security /  wrapper around 15 smaller middlewares
+import productsRouter from "./router/productsRouter.js";
+app.use(productsRouter);
 
 import http from "http";
 const server = http.createServer(app);

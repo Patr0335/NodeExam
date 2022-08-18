@@ -11,6 +11,7 @@ await db.exec(`DROP TABLE IF EXISTS users;`);
 await db.exec(`DROP TABLE IF EXISTS classes;`);
 await db.exec(`DROP TABLE IF EXISTS items;`);
 await db.exec(`DROP TABLE IF EXISTS characters;`);
+await db.exec(`DROP TABLE IF EXISTS products;`);
 
 await db.exec(`CREATE TABLE IF NOT EXISTS users (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -56,6 +57,35 @@ await db.exec(`CREATE TABLE IF NOT EXISTS characters (
     class INTEGER,
     FOREIGN KEY(class) REFERENCES classes(id)
 );`);
+
+await db.exec(`DROP TABLE IF EXISTS products;
+CREATE TABLE IF NOT EXISTS products (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100),
+    imagePath VARCHAR(300),
+    price DOUBLE,
+    description VARCHAR(150)
+);
+`);
+
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt1', 'tshirt1.png', 100, 'This is the first t-shirt')`
+);
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt2', 'tshirt1.png', 110, 'This is the second t-shirt')`
+);
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt3', 'tshirt1.png', 120, 'This is the third t-shirt')`
+);
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt4', 'tshirt1.png', 130, 'This is the fourth t-shirt')`
+);
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt5', 'tshirt1.png', 140, 'This is the fifth t-shirt')`
+);
+await db.run(
+  `INSERT INTO products(name, imagePath, price, description) VALUES ('t-shirt6', 'tshirt1.png', 150, 'This is the sixth t-shirt')`
+);
 
 // seed
 await db.run(
