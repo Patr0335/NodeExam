@@ -17,7 +17,8 @@
     availableItems = [...items]; // create new instance of an Array and assign it to availableItems.
   });
 
-  async function getChar() { // omdøb til getcharacter?
+  async function getChar() {
+    // omdøb til getcharacter?
     const res = await fetch(`/api/characters/${$user.id}`); // ${String interpolation} - $user=autosubscription
     return res.json();
   }
@@ -27,13 +28,13 @@
     return res.json();
   }
 
-  function getAvailableItemsForSlot(i) {
-    availableItems.forEach((x) => {
-      console.log(x.slotId === i + 1);
-    });
-    const some = availableItems.filter((x) => x.slotId === i + 1);
-    return some;
-  }
+  // function getAvailableItemsForSlot(i) {
+  //   availableItems.forEach((x) => {
+  //     console.log(x.slotId === i + 1);
+  //   });
+  //   const some = availableItems.filter((x) => x.slotId === i + 1);
+  //   return some;
+  // }
 
   function selectedItem(itemId, slotId, index) {
     fetch(`/api/characters/${$user.id}`, {
@@ -49,15 +50,12 @@
       .then((x) => x.json()) // promise chaining. forfillment of my fetch call from line 28. unwrap response.json, returns new promise
       .then((x) => {
         // .then on the new promise which gives me response in json.
+        // x er svar fra promise og y er find loopet/den værdi jeg iteraer over i looped.
 
         const currentItems = [...character.items];
-        console.log(items.find((y) => y.id === +x.itemId))
         currentItems[index] = items.find((y) => y.id === +x.itemId); // no {} = returns immidiately
-        let temporaryChar = { ...character}
-        temporaryChar.items = currentItems;
-        character = temporaryChar;
-        // character = { ...character, items:[...currentItems] };
-        console.log(temporaryChar)
+        character = { ...character, items:[...currentItems] };
+        
       });
   }
 
@@ -101,16 +99,18 @@
                     <!-- <label for="items">Choose more items</label> -->
                     <select
                       name="items"
-                      id="selectedValue"
-                      bind:value={item.id}
+                      
+                      value={item.id}
                       on:change={(y) =>
                         selectedItem(y.target.value, item.slotId, i)}
                     >
-                      {#each availableItems.filter((x) => x.slotId === i + 1) as availableItem (availableItem.id)}
-                        <!-- we use id for value but display availableItem.name -->
-                        <option value={availableItem.id}
-                          >{availableItem.name}
-                        </option>
+                      {#each availableItems as availableItem (availableItem)}
+                        {#if availableItem.slotId === i + 1}
+                          <!-- we use id for value but display availableItem.name -->
+                          <option value={availableItem.id}
+                            >{availableItem.name}
+                          </option>
+                        {/if}
                       {/each}
                     </select>
                     <img src={`./images/${item.imagePath}`} alt={item.name} />
