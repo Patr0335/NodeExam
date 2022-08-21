@@ -61,7 +61,7 @@ router.post("/api/signup", async (req, res) => {
 
   //db.run returns object with property changes that I destucture.
   const { changes } = await db.run(
-    `INSERT INTO users (username, password) VALUES (?, ?)`,
+    `INSERT INTO users (username, password, isAdmin) VALUES (?, ?, false)`,
     [username, hashedPass]
   );
 

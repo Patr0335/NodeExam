@@ -9,9 +9,10 @@
   import ProfilePage from "./components/pages/ProfilePage.svelte";
   import PublicProfile from "./components/pages/PublicProfile.svelte";
   import ProductPage from "./components/pages/ProductPage.svelte";
+  import CreateYourProfile from "./components/pages/CreateYourProfile.svelte";
+  import ShoppingCart from "./components/pages/ShoppingCart.svelte";
   import { user } from "./components/store/writeableStore";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-import ShoppingCart from "./components/pages/ShoppingCart.svelte";
 
 
   const options = {
@@ -71,6 +72,7 @@ import ShoppingCart from "./components/pages/ShoppingCart.svelte";
     <Route path="/armory/:characterId" component={PublicProfile} />
     <Route path="/products" component={ProductPage} />
     <Route path="/Shop" component={ShoppingCart} />
+    <Route path="/characters" component={CreateYourProfile} />
 
     <PrivateRoute path="/profile">
       <ProfilePage />

@@ -32,6 +32,11 @@ router.patch("/api/characters/:characterid", async (req, res) => {
   res.send(charactersitems);
 });
 
+router.post("/api/characters", async (req, res) => {
+ const createCharacter = await db.run(`INSERT INTO characters(user, name, class) VALUES (?,?,?)`, req.body.userId, req.body.name, req.body.classId);
+res.send(createCharacter)
+})
+
 // reusable function
 async function getCharacter(userid) {
   const character = await db.get(`SELECT * FROM characters

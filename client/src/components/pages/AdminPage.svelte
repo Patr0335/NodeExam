@@ -47,7 +47,7 @@
               <tr>
                 <th>ID</th>
                 <th>Username</th>
-                <th>isAdmin</th>
+                <th>Admin User</th>
                 <th />
               </tr>
             </thead>
@@ -56,7 +56,7 @@
                 <tr>
                   <td>{user.id}</td>
                   <td>{user.username}</td>
-                  <td>{user.isAdmin}</td>
+                  <td>{user.isAdmin ? "Yes" : "No"}</td>
                   <td>
                     <div class="button-container">
                       <button on:click={updateUser(user.id)}>Edit</button>

@@ -23,7 +23,6 @@
         updateCart(product);
       } else {
         //Remove the item
-
         removeItem(product);
       }
     }

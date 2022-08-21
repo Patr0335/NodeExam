@@ -7,18 +7,28 @@
   let items = [];
   let availableItems = [];
 
-  //TODO: add enum to items for mapping purposes.
+
 
   onMount(async () => {
-    character = await getChar();
+    character = await getCharacter();
+    if (!character || !character.id) {   
+    navigate(`/characters`, { replace: true });
+    }
     character.items.sort((a, b) => a.slotId - b.slotId); // arrow function that compares
     items = await getItems();
     items.sort();
     availableItems = [...items]; // create new instance of an Array and assign it to availableItems.
   });
 
-  async function getChar() {
-    // omdøb til getcharacter?
+
+  async function createProfile() {
+    const res = await fetch("/api/characters");
+    return res.json();
+  }
+
+
+
+  async function getCharacter() {
     const res = await fetch(`/api/characters/${$user.id}`); // ${String interpolation} - $user=autosubscription
     return res.json();
   }
@@ -28,13 +38,6 @@
     return res.json();
   }
 
-  // function getAvailableItemsForSlot(i) {
-  //   availableItems.forEach((x) => {
-  //     console.log(x.slotId === i + 1);
-  //   });
-  //   const some = availableItems.filter((x) => x.slotId === i + 1);
-  //   return some;
-  // }
 
   function selectedItem(itemId, slotId, index) {
     fetch(`/api/characters/${$user.id}`, {
@@ -54,8 +57,7 @@
 
         const currentItems = [...character.items];
         currentItems[index] = items.find((y) => y.id === +x.itemId); // no {} = returns immidiately
-        character = { ...character, items:[...currentItems] };
-        
+        character = { ...character, items: [...currentItems] };
       });
   }
 
@@ -82,42 +84,42 @@
         <div class="" style="text-align: center; margin-top: 12px;">
           <div class="pos">
             {#if character && character.class}
-              <div class="card1">
+              <div class="class-image-container">
                 <div class="class-img">
+                  <h3 class="char-name">{character.name}</h3>
                   <img
                     src={`./images/${character.class.imagePath}`}
                     alt={character.class}
                   />
-                  <h3>{character.name}</h3>
                 </div>
               </div>
             {/if}
-            {#if character && character.items && character.items.length > 0}
-              {#each character?.items as item, i}
-                <div class="card1">
-                  <div class="c-box c-left">
-                    <!-- <label for="items">Choose more items</label> -->
-                    <select
-                      name="items"
-                      
-                      value={item.id}
-                      on:change={(y) =>
-                        selectedItem(y.target.value, item.slotId, i)}
-                    >
-                      {#each availableItems as availableItem (availableItem)}
-                        {#if availableItem.slotId === i + 1}
-                          <!-- we use id for value but display availableItem.name -->
-                          <option value={availableItem.id}
-                            >{availableItem.name}
-                          </option>
-                        {/if}
-                      {/each}
-                    </select>
-                    <img src={`./images/${item.imagePath}`} alt={item.name} />
+            <div class="character-sheet-container">
+              {#if character && character.items && character.items.length > 0}
+                {#each character?.items as item, i}
+                  <div class="item-container">
+                    <div class="c-box">
+                      <img src={`./images/${item.imagePath}`} alt={item.name} />
+                      <select
+                        name="items"
+                        value={item.id}
+                        on:change={(y) =>
+                          selectedItem(y.target.value, item.slotId, i)}
+                      >
+                        {#each availableItems as availableItem (availableItem)}
+                          {#if availableItem.slotId === i + 1}
+                            <!-- we use id for value but display availableItem.name -->
+                            <option value={availableItem.id}
+                              >{availableItem.name}
+                            </option>
+                          {/if}
+                        {/each}
+                      </select>
+                    </div>
                   </div>
-                </div>
-              {/each}
-            {/if}
+                {/each}
+              {/if}
+            </div>
           </div>
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

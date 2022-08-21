@@ -5,9 +5,20 @@ body {
 
 .c-box{
     width:50%;
-    display:inline-block;
-    
+    display:inline-block; 
 }
+
+.character-sheet-container > .item-container:nth-child(even) > .c-box {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: end;
+}
+
+.character-sheet-container > .item-container:nth-child(odd) > .c-box {
+    display: flex;
+    align-items: end;
+}
+
 .c-left{
     float:left;
   
@@ -20,4 +31,44 @@ body {
     position: center;
     z-index: 0;
   }
+
+.class-image-container {
+
+  }
+
+.character-sheet-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    justify-content: space-between;
+}
+
+.pos {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    
+}
+
+.item-container {
+    text-align: left;
+}
+
+.item-container:nth-child(even) {
+    text-align: right;
+    justify-content: end;
+    display: flex;
+}
+
+.char-name {
+    color: white;
+    font-size: 32px;
+    margin: 0;
+}
+
+
+
 
