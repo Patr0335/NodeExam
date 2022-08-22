@@ -13,7 +13,7 @@
   import ShoppingCart from "./components/pages/ShoppingCart.svelte";
   import { user } from "./components/store/writeableStore";
   import { SvelteToast } from "@zerodevx/svelte-toast";
-
+  import { navigate } from "svelte-navigator";
 
   const options = {
     theme: {
@@ -23,6 +23,14 @@
       intro: { y: 192 },
     },
   };
+
+  async function logout() {
+    await fetch(`/api/logout`);
+    navigate("/", { replace: true });
+    $user = null;
+  }
+
+  // $: isLoggedIn = !!user;
 </script>
 
 <main>
@@ -61,6 +69,12 @@
             <Link to="/admin"
               ><button class="button" to="/admin">Admin Page</button></Link
             >
+          </li>
+        {/if}
+
+        {#if $user}
+          <li class="li-style">
+            <button class="button" on:click={logout}>Logout</button>
           </li>
         {/if}
       </ul>

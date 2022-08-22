@@ -135,9 +135,7 @@ await db.run(
 await db.run(
   `INSERT INTO characters (user, name, class) VALUES (2, 'Babz', 3)`
 );
-await db.run(
-  `INSERT INTO characters (user, name, class) VALUES (3, 'Crof', 4)`
-);
+
 
 await db.run(`INSERT INTO slots (id, name)VALUES (1, 'Helm')`);
 await db.run(`INSERT INTO slots (id, name)VALUES (2, 'Shoulders')`);
@@ -159,13 +157,6 @@ await db.run(`INSERT INTO charactersitems VALUES (2, 3, 3)`);
 await db.run(`INSERT INTO charactersitems VALUES (2, 4, 4)`);
 await db.run(`INSERT INTO charactersitems VALUES (2, 5, 5)`);
 await db.run(`INSERT INTO charactersitems VALUES (2, 6, 6)`);
-
-await db.run(`INSERT INTO charactersitems VALUES (3, 1, 1)`);
-await db.run(`INSERT INTO charactersitems VALUES (3, 2, 2)`);
-await db.run(`INSERT INTO charactersitems VALUES (3, 3, 3)`);
-await db.run(`INSERT INTO charactersitems VALUES (3, 4, 4)`);
-await db.run(`INSERT INTO charactersitems VALUES (3, 5, 5)`);
-await db.run(`INSERT INTO charactersitems VALUES (3, 6, 6)`);
 
 await db.run(
   `INSERT INTO users (username, password, isAdmin) VALUES ('patricklindahl91@gmail.com', '${admin}', true)`

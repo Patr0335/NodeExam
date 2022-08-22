@@ -1,16 +1,16 @@
 <script>
   import { navigate } from "svelte-navigator";
   import { toast } from "@zerodevx/svelte-toast";
-  import { user } from "../store/writeableStore";
+  // import { user } from "../store/writeableStore";
   import { onMount } from "svelte";
-  import { validate_each_argument, xlink_attr } from "svelte/internal";
 
-  let classSelect = {};
-  let classCreate = {};
   let classArr = [];
+  let newCharacter = {};
 
   onMount(async () => {
-    classArr = await fetch("/api/classes");
+    const response = await fetch("/api/classes");
+    const classes1 = await response.json();
+    classArr = classes1;
   });
 
   function selectedClass(classId) {
@@ -18,8 +18,24 @@
   }
 
   async function createProfile() {
-    const res = await fetch("/api/characters");
-    return res.json();
+    const res = await fetch("/api/characters", {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(newCharacter),
+    });
+    if (res.status === 200) {
+      navigate("/profile");
+    } else {
+      errorMessage = "Couldn't Create your character";
+      toast.push("ERROR", {
+        theme: {
+          "--toastBackground": "#F56565",
+          "--toastBarBackground": "#C53030",
+        },
+      });
+    }
   }
 </script>
 
@@ -44,23 +60,34 @@
           <form>
             <!-- svelte-ignore a11y-label-has-associated-control -->
             <label style="color: #fff; font-size: 15px; max-width: 1000px;"
-              >Class</label
+              >Pick your class</label
             >
             <select
               name="class"
-              value=""
+              bind:value={newCharacter.classId}
               on:change={(x) => selectedClass(x.target.value)}
+              id="test"
             >
-              {#each classArr as classes (classes)}
-                <option value={classes.id} > {classes.name} </option>
+              {#each classArr as classes}
+                <option value={classes.id}> {classes.class} </option>
               {/each}
             </select>
 
             <!-- svelte-ignore a11y-label-has-associated-control -->
-            
           </form>
         </div>
+        <div>
+          <form>
+            <!-- svelte-ignore a11y-label-has-associated-control -->
+            <label style="color: #fff; font-size: 15px; max-width: 1000px;"
+              >Write your character name</label
+            >
+            <input bind:value={newCharacter.name} placeholder="" />
 
+            <!-- svelte-ignore a11y-label-has-associated-control -->
+          </form>
+        </div>
+        <button on:click={createProfile}> Generate your new character! </button>
         <div class="" style="text-align: center; margin-top: 12px;">
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"
@@ -72,6 +99,3 @@
     </div>
   </div>
 </body>
-
-
- 

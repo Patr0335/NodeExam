@@ -21,13 +21,6 @@
   });
 
 
-  async function createProfile() {
-    const res = await fetch("/api/characters");
-    return res.json();
-  }
-
-
-
   async function getCharacter() {
     const res = await fetch(`/api/characters/${$user.id}`); // ${String interpolation} - $user=autosubscription
     return res.json();
@@ -61,17 +54,16 @@
       });
   }
 
-  async function logout() {
-    await fetch(`/api/logout`);
-    navigate("/", { replace: true });
-    $user = null;
-  }
+  // async function logout() {
+  //   await fetch(`/api/logout`);
+  //   navigate("/", { replace: true });
+  //   $user = null;
+  // }
 </script>
 
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">
-      <button class="button" on:click={logout}>Logout</button>
       <p
         style="color: #fff; font-size: 48px; max-width: 1000px; text-align: center; margin: 0;"
       >

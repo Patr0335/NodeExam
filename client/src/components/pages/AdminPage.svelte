@@ -38,9 +38,6 @@
         Welcome to the admin page! Manage users here:
       </p>
       <div class="search-table-layout">
-        <div class="searchbar-container">
-          <input type="text" placeholder="Search" class="search-bar" />
-        </div>
         <div class="table-container">
           <table id="table_id" class="table">
             <thead>

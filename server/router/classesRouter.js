@@ -7,7 +7,8 @@ router.get("/api/classes", async (req, res) => {
   if (req.session.loggedIn) {
     const classes = await db.all("SELECT * FROM classes;");
     res.send(classes);
-    // res.status(401).send("YOU SHALL NOT PASS");
+  } else {
+    res.status(401).send("YOU SHALL NOT PASS");
   }
 });
 
