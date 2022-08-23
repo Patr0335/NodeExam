@@ -1,6 +1,4 @@
 <script>
-  import { io } from "socket.io-client";
-
   import { onMount } from "svelte";
   import { navigate } from "svelte-navigator";
   import { user } from "../store/writeableStore"; // subscribable variable
@@ -38,10 +36,6 @@
   }
 
   function getImagePath(slotId) {
-    // const currentItem = character.items.find((x) => x.slotId === slotId);
-    // return currentItem && currentItem.imagePath
-    //   ? `./images/${currentItem.imagePath}`
-    //   : "./images/question_mark_white.png";
     return `/images/${
       character.items.find((x) => x.slotId === slotId).imagePath
     }`;
