@@ -87,7 +87,7 @@
     .cart-item-row {
       border-bottom: 1px solid #ccc;
       margin-top: 20px;
-      color: White;
+      color: black;
     }
     .cart-remove-button {
       margin-top: 10px;
