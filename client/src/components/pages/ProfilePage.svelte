@@ -10,10 +10,10 @@
 
   onMount(async () => {
     character = await getCharacter();
-    slots = await getSlots();
     if (!character || !character.id) {
       navigate(`/characters`, { replace: true });
     }
+    slots = await getSlots();
     character.items.sort((a, b) => a.slotId - b.slotId); // arrow function that compares
     items = await getItems();
     items.sort();
@@ -36,13 +36,20 @@
   }
 
   function getImagePath(slotId) {
-    return `/images/${
-      character.items.find((x) => x.slotId === slotId).imagePath
-    }`;
+    const currentItem = character.items.find((x) => x.slotId === slotId);
+    return currentItem && currentItem.imagePath
+      ? `./images/${currentItem.imagePath}`
+      : "./images/question_mark_white.png";
+    // return `/images/${
+    //   character.items.find((x) => x.slotId === slotId).imagePath
+    // }`;
   }
 
   function getItemBySlotId(slotId) {
-    return character.items.find((x) => x.slotId === slotId).itemId;
+    const currentItem = character.items.find((x) => x.slotId === slotId);
+    return currentItem && currentItem.itemId
+      ? `./images/${currentItem.imagePath}`
+      : "./images/question_mark_white.png";
   }
 
   function selectedItem(itemId, slotId, index) {

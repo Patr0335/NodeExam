@@ -3,6 +3,7 @@
   import { toast } from "@zerodevx/svelte-toast";
   import { onMount } from "svelte";
 
+  let classCreate = {};
   let classArr = [];
   let newCharacter = {};
 
