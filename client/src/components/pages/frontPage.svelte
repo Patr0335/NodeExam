@@ -1,3 +1,14 @@
+<script>
+//   import { io } from "socket.io-client";
+
+// const socket = io("ws://localhost:9000")
+
+// socket.on("hej", msg => {
+//   console.log(msg)
+// })
+
+</script>
+
 <body class="fpbody">
   <div class="">
     <div class="fpdiv1">

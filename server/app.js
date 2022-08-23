@@ -62,7 +62,16 @@ const server = http.createServer(app);
 import { init } from "./socket.js";
 
 
-init(server); 
+init(server);
+
+// const io = init(server)
+// io.on("connection", (socket) => {
+//   setInterval(() => {
+//     socket.emit("hej", "PLZVIRK")
+//   },1000)
+  
+// })
+
 
 
 const PORT = process.env.PORT || 9000;
