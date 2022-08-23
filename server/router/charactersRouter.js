@@ -18,11 +18,20 @@ router.get("/api/characters", async (req, res) => {
 // updater my charactersitems relationship table
 router.patch("/api/characters/:characterid", async (req, res) => {
   const charactersitems = req.body;
-  await db.all(`UPDATE charactersitems 
-  SET itemId = ${charactersitems.itemId} 
-  WHERE slotId = ${charactersitems.slotId}
-  AND characterId = ${req.params.characterid}`);
 
+  const hasItem = await db.get(
+    `SELECT EXISTS (SELECT 1 FROM charactersitems WHERE slotId = ${charactersitems.slotId} AND characterId = ${req.params.characterid})`
+  );
+  if (Object.values(hasItem)[0] === 1) {
+    await db.run(`UPDATE charactersitems 
+    SET itemId = ${charactersitems.itemId} 
+    WHERE slotId = ${charactersitems.slotId}
+    AND characterId = ${req.params.characterid}`);
+  } else {
+    await db.run(
+      `INSERT INTO charactersitems VALUES (${req.params.characterid}, ${charactersitems.itemId}, ${charactersitems.slotId})`
+    );
+  }
   //Getting my char again after my update.
   const char = await getCharacter(req.params.characterid);
 
@@ -33,10 +42,15 @@ router.patch("/api/characters/:characterid", async (req, res) => {
 });
 
 router.post("/api/characters", async (req, res) => {
- const userId = req.session.id
- const createCharacter = await db.run(`INSERT INTO characters(user, name, class) VALUES (?,?,?)`, userId, req.body.name, req.body.classId);
-res.send(createCharacter)
-})
+  const userId = req.session.id;
+  const createCharacter = await db.run(
+    `INSERT INTO characters(user, name, class) VALUES (?,?,?)`,
+    userId,
+    req.body.name,
+    req.body.classId
+  );
+  res.send(createCharacter);
+});
 
 // reusable function
 async function getCharacter(userid) {

@@ -2,7 +2,7 @@
     import Product from "./Product.svelte";
     import { cart } from "../store/writeableStore";
   
-    export let product;
+    export let product; // prop
 
     let itemQuantity = 0;
 

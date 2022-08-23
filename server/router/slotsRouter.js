@@ -3,9 +3,9 @@ import db from "../database/createConnection.js";
 
 const router = Router();
 
-router.get("/api/products", async (req, res) => {
-  const products = await db.all(`SELECT * FROM products`);
-  res.send(products);
+router.get("/api/slots", async (req, res) => {
+  const slots = await db.all("SELECT * FROM slots;");
+  res.send(slots);
 });
 
 export default router;

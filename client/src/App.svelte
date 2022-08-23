@@ -30,7 +30,6 @@
     $user = null;
   }
 
-  // $: isLoggedIn = !!user;
 </script>
 
 <main>

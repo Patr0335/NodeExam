@@ -45,7 +45,6 @@ router.post("/api/login", async (req, res) => {
 });
 
 // Signup
-// Forskellen på en api og rest api =
 router.post("/api/signup", async (req, res) => {
   const { username, password } = req.body;
 
@@ -75,18 +74,29 @@ router.post("/api/signup", async (req, res) => {
 
 // Get all users for admin page
 router.get("/api/users", async (req, res) => {
-  const users = await db.all(`SELECT * FROM users`);
-  res.send(users);
+  if (req.session.loggedIn) {
+    const users = await db.all(`SELECT * FROM users`);
+    res.send(users);
+  } else res.status(401).send("YOU SHALL NOT PASS");
 });
 
+// delete user
 router.delete("/api/users/:id", async (req, res) => {
   await db.exec(`DELETE FROM users WHERE id = ${req.params.id}`);
   res.send("Success");
 });
 
-router.put("api/users/:id", async (req, res) => {
-  await db.exec(`UPDATE users SET username WHERE id = ${req.params.id}`);
-}) 
+// update user
+router.put("/api/users/:id", async (req, res) => {
+  await db.get(
+    `UPDATE users SET username = '${req.body.username}' WHERE id = '${req.params.id}'`
+  );
+
+  const result = await db.get(
+    `SELECT * FROM users WHERE id = '${req.params.id}'`
+  );
+  res.send(result);
+});
 
 // Logout
 router.get("/api/logout", (req, res) => {

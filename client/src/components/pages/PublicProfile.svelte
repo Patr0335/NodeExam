@@ -5,20 +5,38 @@
 
   let character = {};
   const params = useParams();
+  let slots = [];
 
   const socket = io("ws://localhost:9000");
 
   socket.on("character", (x) => {
     character = x;
+    slots = [...slots];
   });
 
   onMount(async () => {
     character = await getChar($params.characterId);
+    slots = await getSlots();
   });
 
   async function getChar(characterId) {
     const res = await fetch(`/api/characters/${characterId}`);
     return res.json();
+  }
+  async function getSlots() {
+    const res = await fetch(`/api/slots`);
+    return res.json();
+  }
+
+  function getImagePath(slotId) {
+    const currentItem = character.items.find((x) => x.slotId === slotId);
+    return currentItem && currentItem.imagePath
+      ? `/images/${currentItem.imagePath}`
+      : "/images/question_mark_white.png";
+  }
+
+  function hasImagePath(slotId) {
+    return character.items.find((x) => x.slotId === slotId);
   }
 </script>
 
@@ -39,23 +57,31 @@
             {#if character && character.class}
               <div class="card">
                 <div class="class-img">
+                  <h3 class="char-name">{character.name}</h3>
                   <img
                     src={`../images/${character.class.imagePath}`}
                     alt={character.class}
                   />
-                  <h3>{character.name}</h3>
                 </div>
               </div>
             {/if}
-            {#if character && character.items && character.items.length > 0}
-              {#each character?.items as item}
-                <div class="card">
-                  <div class="c-box c-left">
-                    <img src={`../images/${item.imagePath}`} alt={item.name} />
+            <div class="character-sheet-container">
+              {#if character}
+                {#each slots as slot}
+                  <div class="item-container">
+                    <div class="c-box c-left">
+                      <img
+                        class={hasImagePath(slot.id)
+                          ? "slot-image"
+                          : "question-mark-image"}
+                        src={`${getImagePath(slot.id)}`}
+                        alt={slot.name}
+                      />
+                    </div>
                   </div>
-                </div>
-              {/each}
-            {/if}
+                {/each}
+              {/if}
+            </div>
           </div>
           <p
             style="text-transform: uppercase; font-size: 24px; color: #aaaaaa; margin: 0; text-align: center; margin: 24px 0 0 0"

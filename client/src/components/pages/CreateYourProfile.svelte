@@ -1,7 +1,6 @@
 <script>
   import { navigate } from "svelte-navigator";
   import { toast } from "@zerodevx/svelte-toast";
-  // import { user } from "../store/writeableStore";
   import { onMount } from "svelte";
 
   let classArr = [];

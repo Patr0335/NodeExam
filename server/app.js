@@ -52,6 +52,9 @@ app.use(charactersRouter);
 import productsRouter from "./router/productsRouter.js";
 app.use(productsRouter);
 
+import slotsRouter from "./router/slotsRouter.js";
+app.use(slotsRouter);
+
 import http from "http";
 const server = http.createServer(app);
 

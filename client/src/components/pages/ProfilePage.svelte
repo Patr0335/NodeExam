@@ -1,4 +1,6 @@
 <script>
+  import { io } from "socket.io-client";
+
   import { onMount } from "svelte";
   import { navigate } from "svelte-navigator";
   import { user } from "../store/writeableStore"; // subscribable variable
@@ -6,13 +8,13 @@
   let character = {};
   let items = [];
   let availableItems = [];
-
-
+  let slots = [];
 
   onMount(async () => {
     character = await getCharacter();
-    if (!character || !character.id) {   
-    navigate(`/characters`, { replace: true });
+    slots = await getSlots();
+    if (!character || !character.id) {
+      navigate(`/characters`, { replace: true });
     }
     character.items.sort((a, b) => a.slotId - b.slotId); // arrow function that compares
     items = await getItems();
@@ -20,6 +22,10 @@
     availableItems = [...items]; // create new instance of an Array and assign it to availableItems.
   });
 
+  async function getSlots() {
+    const res = await fetch("/api/slots");
+    return res.json();
+  }
 
   async function getCharacter() {
     const res = await fetch(`/api/characters/${$user.id}`); // ${String interpolation} - $user=autosubscription
@@ -31,6 +37,19 @@
     return res.json();
   }
 
+  function getImagePath(slotId) {
+    // const currentItem = character.items.find((x) => x.slotId === slotId);
+    // return currentItem && currentItem.imagePath
+    //   ? `./images/${currentItem.imagePath}`
+    //   : "./images/question_mark_white.png";
+    return `/images/${
+      character.items.find((x) => x.slotId === slotId).imagePath
+    }`;
+  }
+
+  function getItemBySlotId(slotId) {
+    return character.items.find((x) => x.slotId === slotId).itemId;
+  }
 
   function selectedItem(itemId, slotId, index) {
     fetch(`/api/characters/${$user.id}`, {
@@ -43,22 +62,24 @@
         slotId,
       }),
     })
-      .then((x) => x.json()) // promise chaining. forfillment of my fetch call from line 28. unwrap response.json, returns new promise
+      .then((x) => x.json()) // promise chaining. unwrap response.json, returns new promise
       .then((x) => {
         // .then on the new promise which gives me response in json.
         // x er svar fra promise og y er find loopet/den værdi jeg iteraer over i looped.
-
-        const currentItems = [...character.items];
-        currentItems[index] = items.find((y) => y.id === +x.itemId); // no {} = returns immidiately
-        character = { ...character, items: [...currentItems] };
+        const selectedItem = items.find((k) => k.id === +x.itemId);
+        const itemIndex = character.items.findIndex((o) => o.slotId === slotId);
+        character.items[itemIndex] = selectedItem; // no {} = returns immidiately
+        slots = [...slots];
+        character = {
+          ...character,
+          items: [...character.items],
+        };
       });
   }
 
-  // async function logout() {
-  //   await fetch(`/api/logout`);
-  //   navigate("/", { replace: true });
-  //   $user = null;
-  // }
+  function hasImagePath(slotId) {
+    return character.items.find((x) => x.slotId === slotId);
+  }
 </script>
 
 <body class="fpbody">
@@ -87,20 +108,26 @@
               </div>
             {/if}
             <div class="character-sheet-container">
-              {#if character && character.items && character.items.length > 0}
-                {#each character?.items as item, i}
+              {#if character}
+                {#each slots as slot, i}
                   <div class="item-container">
                     <div class="c-box">
-                      <img src={`./images/${item.imagePath}`} alt={item.name} />
+                      <img
+                        class={hasImagePath(slot.id)
+                          ? "char-item"
+                          : "question-mark-image"}
+                        src={getImagePath(slot.id)}
+                        alt="Easteregg Crof"
+                      />
                       <select
                         name="items"
-                        value={item.id}
+                        value={getItemBySlotId(slot.id)}
                         on:change={(y) =>
-                          selectedItem(y.target.value, item.slotId, i)}
+                          selectedItem(y.target.value, slot.id, i)}
                       >
+                        <option value="">Select Item</option>
                         {#each availableItems as availableItem (availableItem)}
                           {#if availableItem.slotId === i + 1}
-                            <!-- we use id for value but display availableItem.name -->
                             <option value={availableItem.id}
                               >{availableItem.name}
                             </option>

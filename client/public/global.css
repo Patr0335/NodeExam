@@ -40,6 +40,7 @@ body {
     display: grid;
     grid-template-columns: 1fr 1fr;
     justify-content: space-between;
+    gap: 32px;
 }
 
 .pos {
@@ -65,6 +66,18 @@ body {
     margin: 0;
 }
 
+.char-item {
+    height: auto;
+    max-width: 110px;
+}
 
-
+.question-mark-image {
+    height: auto;
+    max-width: 110px;
+    padding: 25px 0;
+}
+.slot-image {
+    max-width: 110px;
+    height: auto;
+}
 
